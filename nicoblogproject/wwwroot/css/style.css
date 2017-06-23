@@ -1,0 +1,260 @@
+﻿.navigationbar {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: #333;
+    overflow: hidden;
+    text-align: center;
+}
+
+.navigationbar a {
+    display: inline-block;
+    color: #f2f2f2;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.navigationbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.navigationbar a[id="loginredirect"]{
+    float:right;
+}
+
+#footercont {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    overflow: hidden;
+    text-align: center;
+    font-size:0.75em;
+}
+
+#footercont a {
+    display: inline-block;
+    color: #00ffff;
+    text-decoration: none;
+}
+
+#footercont p {
+    color: #f2f2f2
+}
+
+#footercont a:hover {
+    color: black;
+}
+
+#introductionheader {
+    text-align:center;
+    font-family:Calibri;
+}
+
+.login-background p {
+    padding: 30px;
+    max-width: 350px;
+    width: 100%;
+    background-color: #F7F7F7;
+    margin: 0 auto;
+    border-radius: 2px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    max-height: 500px;
+    height: 300px;
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index:-1;
+}
+
+.loginsystem h1[id="loginheading"] {
+    text-align:center;
+    font-family:Calibri;
+}
+
+.loginsystem {
+    text-align: center;
+}
+
+.login-wrapper {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.loginsystem input {
+    margin: 0 auto;
+    margin-bottom: 10px;
+    height: 3em;
+    width: 100%;
+    align-items: center;
+    text-align:center;
+    border: solid 1px;
+}
+
+.loginsystem input[id="login-button"]{
+    margin-right:0.3%;
+    margin-top:2%;
+    width: 50%;
+    border: 1px;
+    background-color: #333;
+    color: #f2f2f2;
+}
+
+.loginsystem input[id="login-button"]:hover {
+    background-color: #ddd;
+    color:black;
+}
+
+.additionaloptions {
+    position:fixed;
+    top:120%;
+}
+
+.additionaloptions a {
+    color:black;
+    font-family:Calibri;
+}
+
+.additionaloptions a:hover {
+    color:blue;
+}
+
+.register-wrapper {
+    position: fixed;
+    top:45%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+.registersystem h1 {
+    text-align: center;
+    font-family: Calibri;
+}
+
+.registersystem {
+    text-align:center;
+}
+
+.registersystem input{
+    text-align:center;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    height: 3em;
+    width: 100%;
+    align-items: center;
+    border: solid 1px;
+}
+
+.registererror p{
+    color: #ff0000;
+    font-family:Calibri;
+    position:fixed;
+    text-align:center;
+    top:18%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+.loginerror p {
+    color: #ff0000;
+    font-family: Calibri;
+    position: fixed;
+    text-align: center;
+    top: 18%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.register-background p {
+    padding: 30px;
+    max-width: 350px;
+    width: 100%;
+    background-color: #F7F7F7;
+    margin: 0 auto;
+    border-radius: 2px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    max-height: 500px;
+    height: 350px;
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: -1;
+}
+
+.registersystem input[id="register-submit"] {
+    margin-right: 0.3%;
+    margin-top: 2%;
+    width: 50%;
+    border: 1px;
+    background-color: #333;
+    color: #f2f2f2;
+}
+
+.registersystem input[id="register-submit"]:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+
+.forgotpassword-box p {
+    padding: 30px;
+    max-width: 350px;
+    width: 100%;
+    background-color: #F7F7F7;
+    margin: 0 auto;
+    border-radius: 2px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    max-height: 500px;
+    height: 170px;
+    position: fixed;
+    top: 39%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: -1;
+}
+
+.forgotpassword-wrapper {
+    position: fixed;
+    top:37%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+.forgotpassword-forms h1 {
+    font-family:Calibri;
+    text-align:center;
+}
+
+.forgotpassword-forms input {
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    height: 3em;
+    width: 100%;
+    align-items: center;
+    border: solid 1px;
+}
+
+.forgotpassword-forms input[id="forgotpassword-submit"] {
+    margin-right: 0.3%;
+    margin-top: 2%;
+    width: 50%;
+    border: 1px;
+    background-color: #333;
+    color: #f2f2f2;
+}
+
+.forgotpassword-forms input[id="forgotpassword-submit"]:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.forgotpassword-forms{
+    text-align:center;
+}

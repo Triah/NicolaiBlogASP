@@ -1,0 +1,26 @@
+﻿@model nicoblogproject.Models.ApplicationUser
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="login-wrapper">
+    <div class="loginsystem">
+        <h1 id="loginheading">Login</h1>
+        <form asp-controller="Login" asp-action="Authenticate" method="post">
+            <input type="text" id="login-username" name="loginUsername" placeholder="Username"> <br />
+            <input type="password" id="login-password" name="loginPassword" placeholder="Password"> <br />
+            <input type="submit" id="login-button" value="Login">
+            <div class="additionaloptions">
+                <a href="register">Register New Account</a>  <a href="forgotpassword">Forgot Password</a>
+            </div>
+        </form>
+</div>
+</div>
+
+<div class="loginerror">
+    <p id="login-error">@ViewData["LoginError"]</p>
+</div>
+
+<div class="login-background">
+    <p></p>
+</div>
