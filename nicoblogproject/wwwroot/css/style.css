@@ -279,7 +279,6 @@ html{
 .article-item {
     width: 30%;
     height: 30%;
-    border: solid 1px;
     text-align: center;
 }
 
@@ -296,8 +295,12 @@ html{
 .article-item img[id="article-image"]{
     width:100%;
     height:100%;
+    border: solid 1px white;
 }
 
+.article-item img[id="article-image"]:hover{
+    border: solid 1px;
+}
 
 
 /*mobile display*/
