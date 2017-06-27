@@ -37,7 +37,6 @@ namespace nicoblogproject
             services.AddSession(options =>
             {
                 options.CookieName = ".Application.Session";
-                //can possibly be removed if i manage messages properly with reloads
                 options.IdleTimeout = TimeSpan.FromDays(150);
                 options.CookieHttpOnly = true;
             });

@@ -23,6 +23,7 @@ namespace nicoblogproject.Controllers
         const string SessionLoggedInFalse = "_LoggedInFalse";
         const string SessionUsername = "_Username";
         const string SessionEmail = "_Email";
+        const string SessionUserType = "_Type";
 
         public LoginController(UserContext context)
         {
@@ -90,6 +91,7 @@ namespace nicoblogproject.Controllers
                     applicationUser.Username = RegisterUsername;
                     applicationUser.Email = RegisterEmail;
                     applicationUser.Password = RegisterPassword;
+                    applicationUser.Type = "Basic";
                     applicationUser.SaveDetails();
                 }
 
@@ -146,6 +148,7 @@ namespace nicoblogproject.Controllers
                     HttpContext.Session.SetString(SessionUsername, au.Username);
                     HttpContext.Session.SetString(SessionEmail, au.Email);
                     HttpContext.Session.SetString(SessionLoggedIn, SessionLoggedInTrue);
+                    HttpContext.Session.SetString(SessionUserType, au.Type);
                     return RedirectToAction("Profile");
                 }
             }

@@ -6,20 +6,18 @@ using System.Threading.Tasks;
 
 namespace nicoblogproject.Models
 {
-    public class ApplicationUser
+    public class Article
     {
-        public int ApplicationUserID { get; set; }
-        public string Username { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Type { get; set; }
-
-
+        public int ArticleID { get; set; }
+        public string ArticleTitle { get; set; }
+        public string ArticleCreationTime { get; set; }
+        public string ArticleAuthor { get; set; }
+        public string ArticleContent { get; set; }
 
         public int SaveDetails()
         {
             SqlConnection con = new SqlConnection("Server = (localdb)\\mssqllocaldb; Database = NicolaiBlogDatabase; Trusted_Connection = True; MultipleActiveResultSets = true");
-            string query = "INSERT INTO ApplicationUser(ApplicationUserID, Username, Email, Password, Type) values ('" + ApplicationUserID + "','" + Username + "','" + Email + "','" + Password + "','" + Type + "')";
+            string query = "INSERT INTO Article(ArticleID, ArticleTitle, ArticleCreationTime, ArticleAuthor, ArticleContent) values ('" + ArticleID + "','" + ArticleTitle + "','" + ArticleCreationTime + "','" + ArticleAuthor + "','" + ArticleContent + "')";
             SqlCommand cmd = new SqlCommand(query, con);
             con.Open();
             int i = cmd.ExecuteNonQuery();
@@ -27,5 +25,4 @@ namespace nicoblogproject.Models
             return i;
         }
     }
-
 }

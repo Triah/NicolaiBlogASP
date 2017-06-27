@@ -1,4 +1,9 @@
-﻿<div class="introduction-articles">
+﻿@model IEnumerable<nicoblogproject.Models.Article>
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="introduction-articles">
     <h1>Articles</h1>
     <p>Located on this page are articles that i have written 
     about topics which i find interesting or informative. 
@@ -7,42 +12,15 @@
     <img src="https://cdn.dribbble.com/users/261302/screenshots/1361907/logoplaceholder.png" id="brand-logo"/>
 </div>
 <div class="section group">
-    <!--set this up to use javascript instead of hardcoding
-        have db table with articles to populate from-->
-    <div class="col article-item">
-        <img src="http://www.saulsnewsstand.com/img/placeholder.jpg" id="article-image" />
-    </div>
-    <div class="col article-item">
-        <img src="http://www.saulsnewsstand.com/img/placeholder.jpg" id="article-image" />
-    </div>
-    <div class="col article-item">
-        <img src="http://www.saulsnewsstand.com/img/placeholder.jpg" id="article-image" />
-    </div>
-    <div class="col article-item">
-        <img src="http://www.saulsnewsstand.com/img/placeholder.jpg" id="article-image" />
-    </div>
-    <div class="col article-item">
-        <img src="http://www.saulsnewsstand.com/img/placeholder.jpg" id="article-image" />
-    </div>
-    <div class="col article-item">
-        <img src="http://www.saulsnewsstand.com/img/placeholder.jpg" id="article-image" />
-    </div>
-    <div class="col article-item">
-        <img src="http://www.saulsnewsstand.com/img/placeholder.jpg" id="article-image" />
-    </div>
-    <div class="col article-item">
-        <img src="http://www.saulsnewsstand.com/img/placeholder.jpg" id="article-image" />
-    </div>
-    <div class="col article-item">
-        <img src="http://www.saulsnewsstand.com/img/placeholder.jpg" id="article-image" />
-    </div>
-    <div class="col article-item">
-        <img src="http://www.saulsnewsstand.com/img/placeholder.jpg" id="article-image" />
-    </div>
-    <div class="col article-item">
-        <img src="http://www.saulsnewsstand.com/img/placeholder.jpg" id="article-image" />
-    </div>
-    <div class="col article-item">
-        <img src="http://www.saulsnewsstand.com/img/placeholder.jpg" id="article-image" />
-    </div>
+
+    @foreach (var article in Model)
+    {
+        <div class="col article-item">
+            <img src="http://www.saulsnewsstand.com/img/placeholder.jpg" id="article-image" />
+            <p id="article-title">@article.ArticleTitle</p>
+            <p id="article-creationtime">Created on: @article.ArticleCreationTime</p>
+        </div>
+
+    }
+
 </div>

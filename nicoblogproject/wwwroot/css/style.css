@@ -269,7 +269,7 @@
 .col {
     display: block;
     float: left;
-    margin: 1% 0 1% 1.6%;
+    margin: 1% 0 1% 2%;
 }
 
 html{
@@ -302,6 +302,42 @@ html{
     border: solid 1px;
 }
 
+.article-write h1{
+    text-align:center;
+    font-family:Calibri;
+}
+
+.article-write input[id="article-title"]{
+    position:fixed;
+    width:20%;
+    top:20%;
+    height:2%;
+    left:2%;
+}
+
+.article-write textarea{
+    position:fixed;
+    top:25%;
+    width: 85%;
+    height: 50%;
+    left:2%
+}
+
+.article-write input[id="article-submit"] {
+    position:fixed;
+    top:80%;
+    left:2%;
+    width:10%;
+    height:3em;
+    border: solid 1px;
+    background-color: #333;
+    color: #f2f2f2;
+}
+
+.article-write input[id="article-submit"]:hover {
+    background-color: #f2f2f2;
+    color: #333;
+}
 
 /*mobile display*/
 @media only screen and (max-width: 480px) {

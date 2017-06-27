@@ -1,0 +1,10 @@
+﻿@model nicoblogproject.Models.Article
+
+<div class="article-write">
+    <h1>Article writing page</h1>
+    <form asp-controller="Articles" asp-action="AddNewArticle" method="post">
+        <input type="text" name="articleTitle" id="article-title" placeholder="Article Name" />
+        <textarea name="articleContent" id="article-content" placeholder="Content of the Article"></textarea>
+        <input type="submit" id="article-submit" value="Add Article" />
+    </form>
+</div>
