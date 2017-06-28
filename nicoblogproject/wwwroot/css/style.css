@@ -17,6 +17,7 @@
 .navigationbar a:hover {
     background-color: #ddd;
     color: black;
+    cursor: pointer;
 }
 
 .navigationbar a[id="loginredirect"]{
@@ -292,10 +293,16 @@ html{
     width:50%;
 }
 
-.article-item img[id="article-image"]{
-    width:100%;
-    height:100%;
+.article-item img[id="article-image"] {
+    width: 100%;
+    height: 100%;
     border: solid 1px white;
+    cursor: pointer;
+}
+
+.article-content-page {
+    text-align: center;
+    font-family: Calibri;
 }
 
 .article-item img[id="article-image"]:hover{

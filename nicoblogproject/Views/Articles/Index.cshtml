@@ -12,15 +12,31 @@
     <img src="https://cdn.dribbble.com/users/261302/screenshots/1361907/logoplaceholder.png" id="brand-logo"/>
 </div>
 <div class="section group">
-
+    <script>
+        var articles = [];
+    </script>
+    
     @foreach (var article in Model)
     {
         <div class="col article-item">
-            <img src="http://www.saulsnewsstand.com/img/placeholder.jpg" id="article-image" />
+            <a id="@article.ArticleTitle.Replace(" ", "_")">
+                <img src="http://www.saulsnewsstand.com/img/placeholder.jpg" id="article-image" />
+            </a>
             <p id="article-title">@article.ArticleTitle</p>
             <p id="article-creationtime">Created on: @article.ArticleCreationTime</p>
         </div>
-
+        <script>
+            articles.push("@article.ArticleTitle.Replace(" ", "_")");
+        </script>
     }
-
+    <script>
+            window.onload = function () {
+                for (var i = 0; i < articles.length; i++) (function (i) {
+                    document.getElementById(articles[i]).onclick = function () {
+                        window.location.href = "http://localhost:1621/Articles/" + articles[i];
+                    }
+                })(i);
+            }
+            
+    </script>
 </div>

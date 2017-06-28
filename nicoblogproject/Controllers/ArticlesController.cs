@@ -11,6 +11,7 @@ using nicoblogproject.Data;
 
 namespace nicoblogproject.Controllers
 {
+    [Route("Articles")]
     public class ArticlesController : Controller
     {
         private readonly UserContext _context;
@@ -22,6 +23,8 @@ namespace nicoblogproject.Controllers
             _context = context;
         }
 
+        [Route("")]
+        [Route("Index")]
         // GET: /<controller>/
         public IActionResult Index()
         {
@@ -54,6 +57,23 @@ namespace nicoblogproject.Controllers
             }
             
         }
+        
+        [Route("{articleTitle}")]
+        [Route("(Articles/{articleTitle}")]
+        public IActionResult Article(string articleTitle)
+        {
+            GetLoginHTMLState();
+            foreach(Article a in _context.Articles)
+            {
+                if(a.ArticleTitle.Replace(" ", "_").Equals(articleTitle))
+                {
+                    ViewData["ArticleTitle"] = a.ArticleTitle;
+                    ViewData["ArticleContent"] = a.ArticleContent;
+                    return View();
+                }
+            }
+            return RedirectToAction("Index");
+        }
 
         [HttpPost]
         public IActionResult AddNewArticle()
@@ -64,6 +84,18 @@ namespace nicoblogproject.Controllers
             }
             string ArticleTitle = HttpContext.Request.Form["articleTitle"].ToString();
             string ArticleContent = HttpContext.Request.Form["articleContent"].ToString();
+
+            /*
+             * IDEA for importing images into the article:
+             * Use specialized syntax and analyse the string using a string[]
+             * this specialized syntax must be unique and never used in programming
+             * nor in writing for this to work
+             * the code for interpreting the specialized syntax and import images into the text
+             * could be using the path to the images folder in wwwroot
+             * more than likely this will be difficult to implement properly but it has a definitive
+             * chance of working
+             * this should probably not be here
+             */
 
             if(!ArticleTitle.ToString().Equals("") && !ArticleContent.ToString().Equals(""))
             {
@@ -79,7 +111,7 @@ namespace nicoblogproject.Controllers
             return RedirectToAction("Index");
         }
 
-        public void GetLoginHTMLState()
+        private void GetLoginHTMLState()
         {
             if (HttpContext.Session.GetString("_LoggedInVariable") != null)
             {
