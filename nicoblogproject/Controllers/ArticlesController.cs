@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using nicoblogproject.Models;
 using nicoblogproject.Data;
+using System.IO;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -75,40 +76,114 @@ namespace nicoblogproject.Controllers
             return RedirectToAction("Index");
         }
 
+        [Route("FileHandler")]
+        public IActionResult FileHandler()
+        {
+            GetLoginHTMLState();
+            if (HttpContext.Session.GetString("_Username") != null)
+            {
+                if (HttpContext.Session.GetString("_Type").Equals("Admin"))
+                {
+                    return View();
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost("UploadImages")]
+        public async Task<IActionResult> UploadImages(List<IFormFile> files)
+        {
+
+            var filePath = Directory.GetCurrentDirectory() + "/wwwroot/Images/";
+            foreach (var file in files)
+            {
+                if (file.Length > 0)
+                {
+                    using (var stream = new FileStream(filePath + file.FileName, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                }
+                Images image = new Images();
+                image.ImagesID = Guid.NewGuid().GetHashCode();
+                image.ImagesPath = "/images/" + file.FileName;
+                image.SaveDetails();
+            }
+
+
+            return RedirectToAction("FileHandler");
+        }
+
         [HttpPost]
         public IActionResult AddNewArticle()
         {
-            foreach(Article a in _context.Articles)
+            string ArticleTitle = HttpContext.Request.Form["articleTitle"].ToString();
+            HttpContext.Session.SetString("_ArticleTitle", ArticleTitle);
+
+            string ArticleContent = HttpContext.Request.Form["articleContent"].ToString();
+            HttpContext.Session.SetString("_ArticleContent", ArticleTitle);
+
+            return RedirectToAction("AddThumbnail");
+        }
+
+        [HttpPost("AddThumbnailAction")]
+        public IActionResult AddThumbnailAction()
+        {
+
+            foreach (Article a in _context.Articles)
             {
                 articleidvalue--;
             }
-            string ArticleTitle = HttpContext.Request.Form["articleTitle"].ToString();
-            string ArticleContent = HttpContext.Request.Form["articleContent"].ToString();
 
-            /*
-             * IDEA for importing images into the article:
-             * Use specialized syntax and analyse the string using a string[]
-             * this specialized syntax must be unique and never used in programming
-             * nor in writing for this to work
-             * the code for interpreting the specialized syntax and import images into the text
-             * could be using the path to the images folder in wwwroot
-             * more than likely this will be difficult to implement properly but it has a definitive
-             * chance of working
-             * this should probably not be here
-             */
+            string ArticleTitle = HttpContext.Session.GetString("_ArticleTitle");
+            HttpContext.Session.SetString("_ArticleTitle", "");
 
-            if(!ArticleTitle.ToString().Equals("") && !ArticleContent.ToString().Equals(""))
+            string ArticleContent = HttpContext.Session.GetString("_ArticleContent");
+            HttpContext.Session.SetString("_ArticleContent", "");
+
+            string ArticleThumbnail = HttpContext.Request.Form["imagepath"].ToString();
+
+            if (!ArticleTitle.ToString().Equals("") && !ArticleContent.ToString().Equals("")
+                && !ArticleThumbnail.Equals(""))
             {
                 Article article = new Article();
                 article.ArticleID = articleidvalue;
                 article.ArticleTitle = ArticleTitle;
                 article.ArticleCreationTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                article.ArticleAuthor = HttpContext.Session.GetString("_Username").ToString(); 
+                article.ArticleAuthor = HttpContext.Session.GetString("_Username").ToString();
                 article.ArticleContent = ArticleContent;
+                article.ArticleThumbnail = ArticleThumbnail;
                 article.SaveDetails();
             }
-
             return RedirectToAction("Index");
+        }
+
+        [Route("AddThumbnail")]
+        public IActionResult AddThumbnail()
+        {
+            GetLoginHTMLState();
+            if (HttpContext.Session.GetString("_Username") != null)
+            {
+                if (HttpContext.Session.GetString("_Type").Equals("Admin"))
+                {
+                    List<Images> images = new List<Images>();
+
+                    foreach (Images i in _context.Images)
+                    {
+                        images.Add(i);
+                    }
+                    return View(images);
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         private void GetLoginHTMLState()

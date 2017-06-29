@@ -13,11 +13,12 @@ namespace nicoblogproject.Models
         public string ArticleCreationTime { get; set; }
         public string ArticleAuthor { get; set; }
         public string ArticleContent { get; set; }
+        public string ArticleThumbnail { get; set; }
 
         public int SaveDetails()
         {
             SqlConnection con = new SqlConnection("Server = (localdb)\\mssqllocaldb; Database = NicolaiBlogDatabase; Trusted_Connection = True; MultipleActiveResultSets = true");
-            string query = "INSERT INTO Article(ArticleID, ArticleTitle, ArticleCreationTime, ArticleAuthor, ArticleContent) values ('" + ArticleID + "','" + ArticleTitle + "','" + ArticleCreationTime + "','" + ArticleAuthor + "','" + ArticleContent + "')";
+            string query = "INSERT INTO Article(ArticleID, ArticleTitle, ArticleCreationTime, ArticleAuthor, ArticleContent, ArticleThumbnail) values ('" + ArticleID + "','" + ArticleTitle + "','" + ArticleCreationTime + "','" + ArticleAuthor + "','" + ArticleContent + "','" + ArticleThumbnail + "')";
             SqlCommand cmd = new SqlCommand(query, con);
             con.Open();
             int i = cmd.ExecuteNonQuery();

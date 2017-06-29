@@ -1,0 +1,40 @@
+﻿@model IEnumerable<nicoblogproject.Models.Images>
+
+<script>
+    var imagePaths = []
+</script>
+
+<div class="dropdown">
+    <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+    <div id="myDropdown" class="dropdown-content">
+        @foreach(var f in Model){
+            <a id="@f.ImagesPath">
+                <img src="@f.ImagesPath">
+            </a>
+            <script>
+                imagePaths.push("@f.ImagesPath");
+            </script>
+        }
+        <img src="~/images/buttonStock1h.png" />
+    </div>
+</div>
+
+<div class="text-image-path">
+    <form asp-controller="Articles" asp-action="AddThumbnailAction" method="post">
+        <textarea id="formresult" name="imagepath"></textarea>
+        <input type="submit" id="final-article-submit" value="Add Article" />
+    </form>
+    
+</div>
+
+<script>
+window.onload = function () {
+    for (var i = 0; i < imagePaths.length; i++) (function (i) {
+        document.getElementById(imagePaths[i]).onclick = function () {
+            document.getElementById("formresult").value = imagePaths[i];
+        }
+    })(i);
+}
+</script>
+
+

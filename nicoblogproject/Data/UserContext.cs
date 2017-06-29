@@ -15,11 +15,13 @@ namespace nicoblogproject.Data
 
         public DbSet<ApplicationUser> Users { get; set; }
         public DbSet<Article> Articles { get; set; }
+        public DbSet<Images> Images { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ApplicationUser>().ToTable("ApplicationUser");
             modelBuilder.Entity<Article>().ToTable("Article");
+            modelBuilder.Entity<Images>().ToTable("Images");
         }
     }
 }
