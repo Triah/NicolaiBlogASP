@@ -18,6 +18,7 @@ namespace nicoblogproject.Controllers
         private readonly UserContext _context;
         //used for ordering the articles properly
         private int articleidvalue = 1000;
+        private int imagesidvalue = 1000;
 
         public ArticlesController(UserContext context)
         {
@@ -97,7 +98,10 @@ namespace nicoblogproject.Controllers
         [HttpPost("UploadImages")]
         public async Task<IActionResult> UploadImages(List<IFormFile> files)
         {
-
+            foreach (Images image in _context.Images)
+            {
+                imagesidvalue--;
+            }
             var filePath = Directory.GetCurrentDirectory() + "/wwwroot/Images/";
             foreach (var file in files)
             {
@@ -109,9 +113,10 @@ namespace nicoblogproject.Controllers
                     }
                 }
                 Images image = new Images();
-                image.ImagesID = Guid.NewGuid().GetHashCode();
+                image.ImagesID = imagesidvalue;
                 image.ImagesPath = "/images/" + file.FileName;
                 image.SaveDetails();
+                imagesidvalue--;
             }
 
 
@@ -127,7 +132,14 @@ namespace nicoblogproject.Controllers
             string ArticleContent = HttpContext.Request.Form["articleContent"].ToString();
             HttpContext.Session.SetString("_ArticleContent", ArticleTitle);
 
-            return RedirectToAction("AddThumbnail");
+            if(!ArticleTitle.Equals("") && !ArticleContent.Equals(""))
+            {
+                return RedirectToAction("AddThumbnail");
+            } else
+            {
+                return RedirectToAction("AddArticle");
+            }
+            
         }
 
         [HttpPost("AddThumbnailAction")]

@@ -4,28 +4,25 @@
     var imagePaths = []
 </script>
 
-<div class="dropdown">
-    <button onclick="myFunction()" class="dropbtn">Dropdown</button>
-    <div id="myDropdown" class="dropdown-content">
+<div class="text-image-path">
+    <form asp-controller="Articles" asp-action="AddThumbnailAction" method="post">
+        <textarea id="formresult" name="imagepath"></textarea> <br />
+        <input type="submit" id="final-article-submit" value="Add Article" />
+    </form>
+</div>
+
+<div class="galleryofimages">
         @foreach(var f in Model){
             <a id="@f.ImagesPath">
-                <img src="@f.ImagesPath">
+                <img src="@f.ImagesPath" height="350" width="350">
             </a>
             <script>
                 imagePaths.push("@f.ImagesPath");
             </script>
         }
-        <img src="~/images/buttonStock1h.png" />
-    </div>
 </div>
 
-<div class="text-image-path">
-    <form asp-controller="Articles" asp-action="AddThumbnailAction" method="post">
-        <textarea id="formresult" name="imagepath"></textarea>
-        <input type="submit" id="final-article-submit" value="Add Article" />
-    </form>
-    
-</div>
+
 
 <script>
 window.onload = function () {
