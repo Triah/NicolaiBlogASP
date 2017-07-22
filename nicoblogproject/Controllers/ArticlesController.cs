@@ -130,7 +130,7 @@ namespace nicoblogproject.Controllers
             HttpContext.Session.SetString("_ArticleTitle", ArticleTitle);
 
             string ArticleContent = HttpContext.Request.Form["articleContent"].ToString();
-            HttpContext.Session.SetString("_ArticleContent", ArticleTitle);
+            HttpContext.Session.SetString("_ArticleContent", ArticleContent);
 
             if(!ArticleTitle.Equals("") && !ArticleContent.Equals(""))
             {

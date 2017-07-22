@@ -50,6 +50,11 @@
     color: black;
 }
 
+#footercont a[id="contact-footerlink"]:hover {
+    color: black;
+    cursor:pointer;
+}
+
 #introductionheader {
     text-align:center;
     font-family:Calibri;
@@ -432,6 +437,8 @@ html{
 }
 
 .contact-page-text {
+    margin-top:10%;
+    float: left;
     text-align:center;
     font-family: Calibri;
     font-size:1.2em;
@@ -470,6 +477,11 @@ html{
     border: solid 1px;
 }
 
+.contact-page-form h1{
+    font-family:Calibri;
+    text-align:center;
+}
+
 .contact-page-form textarea{
     width:500px;
     height:300px;
@@ -482,17 +494,14 @@ html{
 
 .contact-page-form-wrapper {
     position: absolute;
-    top: 55%;
-    left: 50%;
+    top: 50%;
+    left: 75%;
     transform: translate(-50%,-50%);
     z-index:-1;
 }
 
 .contactlinks {
-    position:absolute;
-    top:100%;
-    left:50%;
-    transform:translate(-50%,-50%);
+    float: left;
     margin-bottom:10%;
     z-index:-1;
 }
@@ -508,7 +517,82 @@ html{
     color: black;
 }
 
+.send-newsletter {
+    font-family:Calibri;
+    float:left;
+    margin-left:7%;
+}
 
+.send-newsletter input[id="subject-newsletter"] {
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 3em;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    border: solid 1px;
+}
+
+.send-newsletter textarea {
+    position: fixed;
+    top: 25%;
+    width: 85%;
+    height: 50%;
+    left: 7%
+}
+
+.send-newsletter input[id="submit-newsletter"] {
+    position: fixed;
+    top: 80%;
+    left: 7%;
+    width: 10%;
+    height: 3em;
+    border: solid 1px;
+    background-color: #333;
+    color: #f2f2f2;
+}
+
+.send-newsletter input[id="submit-newsletter"]:hover{
+    background-color:#f2f2f2;
+    color:#333;
+}
+
+.newsletter-signup {
+    font-family: Calibri;
+    position: relative;
+    float: left;
+    margin-left: 7%;
+    font-size: 1.2em;
+    width: 40%;
+}
+
+.newsletter-signup input[id="newsletter-register"] {
+    margin: 0 auto;
+    margin-top: 10px;
+    height: 3em;
+    width: 300px;
+    align-items: center;
+    text-align: center;
+    border: solid 1px;
+}
+
+.newsletter-signup input[type="submit"] {
+    width: 150px;
+    height: 3em;
+    border: solid 1px;
+    background-color: #333;
+    color: #f2f2f2;
+}
+
+.newsletter-signup input[type="submit"]:hover {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.newsletter-signup p[id="newsletter-register-result"]{
+    color:#0094ff;
+}
 /*screen size alterations*/
 @media only screen and (max-width: 1700px) {
     .col {
@@ -531,7 +615,12 @@ html{
         width: 100%;
         height: 280px;
     }
-}
+
+    .contact-page-form-wrapper {
+        top:90%;
+        left:35%;
+        margin-bottom:10%;
+    }
 
 @media only screen and (max-width: 1300px) {
     .col {
@@ -542,8 +631,50 @@ html{
         width: 100%;
         height: 250px;
     }
+
+    .contact-page-form-wrapper {
+        top: 90%;
+        left: 35%;
+        margin-bottom: 10%;
+    }
 }
 
+@media only screen and (max-height: 920px) {
+    .contactpage{
+        margin-top:-6%;
+        margin-bottom:10%
+    }
+    .contact-page-form-wrapper {
+        margin-top:10%;
+    }
+}
+
+@media only screen and (max-height: 847px) {
+    .contact-page-form-wrapper {
+        margin-top: 20%;
+    }
+}
+
+@media only screen and (max-height: 792px) {
+    .contact-page-form-wrapper {
+        margin-top: 40%;
+    }
+}
+@media only screen and (max-height: 699px) {
+    .contact-page-form-wrapper {
+        margin-top: 60%;
+    }
+}
+@media only screen and (max-height: 590px) {
+    .contact-page-form-wrapper {
+        margin-top: 100%;
+    }
+}
+@media only screen and (max-height: 410px) {
+    .contact-page-form-wrapper {
+        margin-top: 150%;
+    }
+}
 
 @media only screen and (max-width: 1000px) {
     .col {
@@ -556,6 +687,15 @@ html{
     }
 }
 
+@media only screen and (max-width: 950px) {
+    .contact-page-form-wrapper {
+        top: 88%;
+        left: 45%;
+        margin-bottom: 10%;
+    }
+
+}
+
 @media only screen and (max-width: 700px) {
     .col {
         margin: 1% 0 1% 1%;
@@ -564,6 +704,27 @@ html{
     .article-item img[id="article-image"] {
         width: 100%;
         height: 180px;
+    }
+
+    .contact-page-form textarea{
+        width:100%;
+    }
+
+    .contact-page-form-wrapper {
+        width:80%;
+        top: 88%;
+        left: 50%;
+        margin-bottom: 10%;
+    }
+
+}
+
+@media only screen and (max-width: 551px) {
+    .contact-page-form-wrapper {
+        width: 80%;
+        top: 94%;
+        left: 50%;
+        margin-bottom: 12%;
     }
 }
 

@@ -1,0 +1,8 @@
+﻿<div class="send-newsletter">
+    <h1>Newsletter creation</h1>
+    <form asp-controller="Email" asp-action="SendNewsletter" method="post"><br />
+        <input type="text" name="subjectNewsletter" id="subject-newsletter" placeholder="Write subject"/><br />
+        <textarea name="contentNewsletter" id="content-newsletter" placeholder="Content"></textarea>
+        <input type="submit" value="Send To Subscribers" id="submit-newsletter"/>
+    </form>
+</div>

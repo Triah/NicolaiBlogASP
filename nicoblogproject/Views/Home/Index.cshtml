@@ -1,10 +1,10 @@
 ﻿
 <div class="homepage">
-    <h1 id="introductionheader">Welcome to Domain Name</h1>
+    <h1 id="introductionheader">Welcome to Realm of Code</h1>
     <br />
     <div class="homepage-text">
         <p id="coretext-homepage introduction">
-            Domain name is a blog created by Nicolai Hedegaard Jensen. <br />The main purpose of this blog is to share the knowledge I obtain to help other people, whether that is by finetuning their knowledge or introducing new people to the workd of software development. <br />
+            Realm of Code is a blog created by Nicolai Hedegaard Jensen. <br />The main purpose of this blog is to share the knowledge I obtain to help other people, whether that is by fine tuning their knowledge or introducing new people to the world of software development. <br />
             The way I plan to achieve this goal is by writing articles, answering questions and in time offering paid courses on different topics. <br />These can be useful to both the complete beginner and the experienced developer looking to refresh information. <br />
         </p>
         <p id="coretext-homepage community">
@@ -13,10 +13,10 @@
             <blockquote>
         <p>
             <strong>
-                • &nbsp;   Expand their network. <br />
-                • &nbsp;  Comment on articles. <br />
-                • &nbsp;  Take on new challenges. <br />
-                • &nbsp;  Learn together.
+                • &nbsp;   Expand their network<br />
+                • &nbsp;  Comment on articles <br />
+                • &nbsp;  Take on new challenges <br />
+                • &nbsp;  Learn together
             </strong>
         </p>
         </blockquote>
@@ -24,7 +24,7 @@
         You can create an account by clicking the Login tab in the navigation bar at the top of the page. <br />
         Once you have created an account you can customize it with your desired information. <br />
         <br />
-        The community allows me as the creater of the blog to answer your burning questions, while simultaniously allowing the readers to expand their network with
+        The community allows me as the creator of the blog to answer your burning questions, while simultaniously allowing the readers to expand their network with
         likeminded people.
         </p>
         <p id="coretext-homepage about">
@@ -32,5 +32,13 @@
             Furthermore if you are looking to create a website, a mobile application or any other type of software application, my services are for sale. <br />
             To contact me in regards to doing contracting work please see the Contact page or send me an email using the email adress shown in the page footer.
         </p>
+    </div>
+    <div class="newsletter-signup">
+        <p>To recieve my newsletter, describing all relevant information about the blog feel free to sign up here:</p>
+        <form asp-controller="Home" asp-action="NewsletterRegistration" method="post">
+            <input type="text" name="newsletterRegister" id="newsletter-register" placeholder="Email"/>
+            <input type="submit" id="newsletter-register-submit" value="Subscribe" />
+        </form>
+        <p id="newsletter-register-result">@ViewData["NewsletterResult"]</p>
     </div>
 </div>
