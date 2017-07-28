@@ -39,6 +39,18 @@
             <input type="text" name="newsletterRegister" id="newsletter-register" placeholder="Email"/>
             <input type="submit" id="newsletter-register-submit" value="Subscribe" />
         </form>
-        <p id="newsletter-register-result">@ViewData["NewsletterResult"]</p>
+        @if (ViewData["NewsletterResult"] != null)
+        {
+            if (ViewData["NewsletterResult"].ToString().Equals("Subscription Successful"))
+            {
+                <p id="newsletter-register-result-success">@ViewData["NewsletterResult"]</p>
+            }
+            else
+            {
+                <p id="newsletter-register-result-fail">@ViewData["NewsletterResult"]</p>
+            }
+        }
+        
+
     </div>
 </div>

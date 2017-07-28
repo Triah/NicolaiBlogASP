@@ -165,7 +165,7 @@ namespace nicoblogproject.Controllers
                 Article article = new Article();
                 article.ArticleID = articleidvalue;
                 article.ArticleTitle = ArticleTitle;
-                article.ArticleCreationTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                article.ArticleCreationTime = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
                 article.ArticleAuthor = HttpContext.Session.GetString("_Username").ToString();
                 article.ArticleContent = ArticleContent;
                 article.ArticleThumbnail = ArticleThumbnail;

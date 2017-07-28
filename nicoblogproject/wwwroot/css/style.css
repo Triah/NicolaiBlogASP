@@ -186,7 +186,7 @@
     border-radius: 2px;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
     max-height: 500px;
-    height: 350px;
+    height: 450px;
     position: fixed;
     top: 45%;
     left: 50%;
@@ -279,12 +279,18 @@
 }
 
 html{
-    margin-bottom:5%
+    margin-bottom:10%
 }
 
 .article-item {
     width: 30%;
     height: 30%;
+    text-align: center;
+}
+
+.community-item {
+    width: 17%;
+    height: 17%;
     text-align: center;
 }
 
@@ -306,12 +312,25 @@ html{
     cursor: pointer;
 }
 
+.community-item img[id="communityimage"] {
+    max-width: 300px;
+    width: 100%;
+    height: 300px;
+    max-height:400px;
+    border: solid 1px white;
+    cursor: pointer;
+}
+
 .article-content-page {
     text-align: center;
     font-family: Calibri;
 }
 
 .article-item img[id="article-image"]:hover{
+    border: solid 1px;
+}
+
+.community-item img[id="communityimage"]:hover {
     border: solid 1px;
 }
 
@@ -428,10 +447,6 @@ html{
 
 }
 
-/*needs alot of screen sizing work to be done adjust at
-    width=600
-    height= 945, 770, 600
-*/
 .contactpage {
     font-family:Calibri;
 }
@@ -579,7 +594,7 @@ html{
 
 .newsletter-signup input[type="submit"] {
     width: 150px;
-    height: 3em;
+    height: 3.4em;
     border: solid 1px;
     background-color: #333;
     color: #f2f2f2;
@@ -590,9 +605,69 @@ html{
     color: #333;
 }
 
-.newsletter-signup p[id="newsletter-register-result"]{
-    color:#0094ff;
+.newsletter-signup p[id="newsletter-register-result-success"]{
+    color:#4CAF50;
 }
+
+.newsletter-signup p[id="newsletter-register-result-fail"]{
+    color:#ff0000;
+}
+
+.registersystem input[type="checkbox"]{
+    width:15px;
+    height:15px;
+    float:left;
+    margin-top:3px
+}
+
+.checkbox-wrapping {
+    font-family:Calibri;
+}
+
+.community-heading {
+    text-align:center;
+    font-family:Calibri;
+}
+
+.community-background{
+    margin-top:5%;
+}
+
+.community-search input[id="communitysearchbar"] {
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 3em;
+    width: 300px;
+    align-items: center;
+    text-align: center;
+    border: solid 1px;
+}
+
+.community-search {
+    text-align:center;
+}
+
+.community-search input[type="submit"] {
+    width: 150px;
+    height: 3.4em;
+    border: solid 1px;
+    background-color: #333;
+    color: #f2f2f2;
+}
+
+.community-search input[type="submit"]:hover {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+
+
+
+
+
+
+
 /*screen size alterations*/
 @media only screen and (max-width: 1700px) {
     .col {
@@ -617,10 +692,11 @@ html{
     }
 
     .contact-page-form-wrapper {
-        top:90%;
-        left:35%;
-        margin-bottom:10%;
+        top: 90%;
+        left: 35%;
+        margin-bottom: 10%;
     }
+}
 
 @media only screen and (max-width: 1300px) {
     .col {
@@ -738,7 +814,92 @@ html{
         width: 100%;
     }
 
+    .community-item {
+        width:100%;
+    }
+
     #footercont{
         visibility: hidden;
+    }
+}
+
+@media only screen and (max-width: 350px){
+    .community-item img[id="communityimage"] {
+        width: 100%;
+        height: 250px;
+    }
+}
+
+@media only screen and (max-width: 234px) {
+    .community-item img[id="communityimage"] {
+        width: 100%;
+        height: 150px;
+    }
+}
+
+@media only screen and (max-width: 1500px) {
+    .col {
+        margin: 1% 0 1% 1%;
+    }
+
+    .community-item img[id="communityimage"] {
+        width: 100%;
+        height: 250px;
+    }
+}
+
+@media only screen and (max-width: 1263px) {
+    .col {
+        margin: 1% 0 1% 1%;
+    }
+
+    .community-item img[id="communityimage"] {
+        width: 100%;
+        height: 200px;
+    }
+}
+
+@media only screen and (max-width: 1026px) {
+    .col {
+        margin: 1% 0 1% 1%;
+    }
+
+    .community-item img[id="communityimage"] {
+        width: 100%;
+        height: 150px;
+    }
+}
+
+@media only screen and (max-width: 860px) {
+    .col {
+        margin: 1% 0 1% 1%;
+    }
+
+    .community-item img[id="communityimage"] {
+        width: 100%;
+        height: 100px;
+    }
+}
+
+
+@media only screen and (max-width: 535px) {
+    .col {
+        margin: 1% 0 1% 1%;
+    }
+
+    .community-item img[id="communityimage"] {
+        width: 100%;
+        height: 80px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .col {
+        margin: 1% 0 1% 1%;
+    }
+
+    .community-item img[id="communityimage"] {
+        width: 100%;
+        height: 250px;
     }
 }

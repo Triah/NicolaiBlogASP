@@ -12,6 +12,13 @@
             <input type="text" id="register-email" name="registerEmail" placeholder="Email" /> <br />
             <input type="password" id="register-password" name="registerPassword" placeholder="Password" /> <br />
             <input type="password" id="register-confirmpassword" name="confirmPassword" placeholder="Confirm Password"/> <br />
+            <div class="checkbox-wrapping">
+                <input type="checkbox" id="register-newsletter-checkbox" name="registerNewsletterCheckbox" /><p id="signup-register-newsletter">I wish to sign up for the newsletter</p>
+            </div>
+            <div class="checkbox-wrapping">
+                <input type="checkbox" id="register-termsofservice-checkbox" name="registerTermsOfServiceCheckbox" /><p id="signup-register-termsofservice">I have read and agree to the <a href="localhost:1621/termsofservice">Terms of Service</a></p>
+            </div>
+            
             <input type="submit" id="register-submit" value="Register" onclick="verifyRegistrationData()" />
         </form>
         

@@ -12,6 +12,7 @@ namespace nicoblogproject.Models
         public string Username { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string DisplayImage { get; set; }
         public string Type { get; set; }
 
 
@@ -19,7 +20,7 @@ namespace nicoblogproject.Models
         public int SaveDetails()
         {
             SqlConnection con = new SqlConnection("Server = (localdb)\\mssqllocaldb; Database = NicolaiBlogDatabase; Trusted_Connection = True; MultipleActiveResultSets = true");
-            string query = "INSERT INTO ApplicationUser(ApplicationUserID, Username, Email, Password, Type) values ('" + ApplicationUserID + "','" + Username + "','" + Email + "','" + Password + "','" + Type + "')";
+            string query = "INSERT INTO ApplicationUser(ApplicationUserID, Username, Email, Password, DisplayImage, Type) values ('" + ApplicationUserID + "','" + Username + "','" + Email + "','" + Password + "'," + "null" + ",'" + Type + "')";
             SqlCommand cmd = new SqlCommand(query, con);
             con.Open();
             int i = cmd.ExecuteNonQuery();

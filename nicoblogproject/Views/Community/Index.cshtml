@@ -1,0 +1,52 @@
+﻿@model IEnumerable<nicoblogproject.Models.ApplicationUser>
+@{
+    ViewBag.Title = "Index";
+}
+<div class="community-heading">
+    <h1 id="communityheading">Community</h1>
+</div>
+<div class="community-search">
+    <form asp-controller="Community" asp-action="SearchByUsername" method="post">
+        <input type="text" id="communitysearchbar" name="communitySearchBar" placeholder="Find User" /> <br />
+        <input type="submit" id="communitysearchsubmit" value="Search" />
+    </form>
+</div>
+
+
+
+<div class="section community-background">
+
+
+    @foreach (var user in Model)
+    {
+        <div class="col community-item">
+
+            <a id="@user.Username">
+                @if (user.DisplayImage != null)
+                {
+                    <img src="@user.DisplayImage" id="communityimage" />
+                }
+                else
+                {
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1024px-Placeholder_no_text.svg.png" id="communityimage" />
+                }
+                
+            </a>
+            <p id="communityaccountname">@user.Username</p>
+        </div>
+    }
+
+
+    <!--
+        <script>
+            window.onload = function () {
+                for (var i = 0; i < articles.length; i++) (function (i) {
+                    document.getElementById(articles[i]).onclick = function () {
+                        window.location.href = "http://localhost:1621/Articles/" + articles[i];
+                    }
+                })(i);
+            }
+
+    </script>
+    -->
+</div>

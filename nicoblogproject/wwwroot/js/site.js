@@ -6,8 +6,8 @@ function directarticles() {
     window.location.href = "http://localhost:1621/articles";
 }
 
-function directproducts() {
-    window.location.href = "http://localhost:1621/products";
+function directcommunity() {
+    window.location.href = "http://localhost:1621/community";
 }
 
 function directabout() {

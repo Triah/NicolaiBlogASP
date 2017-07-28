@@ -10,6 +10,9 @@
 
   <ItemGroup>
     <Content Include="wwwroot\css\style.css" />
+    <Content Include="wwwroot\images\userimages\airadventurelevel1.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MailKit" Version="1.16.2" />
@@ -31,10 +34,6 @@
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot\images\" />
-    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

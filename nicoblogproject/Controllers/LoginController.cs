@@ -24,6 +24,7 @@ namespace nicoblogproject.Controllers
         const string SessionUsername = "_Username";
         const string SessionEmail = "_Email";
         const string SessionUserType = "_Type";
+        const string SessionKeyAcceptTerms = "_TermsOfService";
 
         public LoginController(UserContext context)
         {
@@ -187,9 +188,11 @@ namespace nicoblogproject.Controllers
             string Email = HttpContext.Request.Form["registerEmail"].ToString();
             string Password = HttpContext.Request.Form["registerPassword"].ToString();
             string ConfirmPassword = HttpContext.Request.Form["confirmPassword"].ToString();
+            string SignupNewsletter = HttpContext.Request.Form["registerNewsletterCheckbox"].ToString();
+            string SignupTermsOfService = HttpContext.Request.Form["registerTermsOfServiceCheckbox"].ToString();
 
             //input checks
-            
+
             //check if Username is empty
             if (Username.Equals(""))
             {
@@ -263,6 +266,12 @@ namespace nicoblogproject.Controllers
                 return RedirectToAction("Register");
             }
 
+            else if (SignupTermsOfService.Equals(""))
+            {
+                HttpContext.Session.SetString(SessionKeyErrorOccured, "You must accept the Terms of Service");
+                return RedirectToAction("Register");
+            }
+
             foreach (ApplicationUser a in _context.Users)
             {
                 if (a.Username == Username)
@@ -276,7 +285,7 @@ namespace nicoblogproject.Controllers
                     HttpContext.Session.SetString(SessionKeyErrorOccured,
                         "Email is empty or already in use");
                     return RedirectToAction("Register");
-                } 
+                }
             }
 
             //store values using sessions
@@ -284,8 +293,34 @@ namespace nicoblogproject.Controllers
             HttpContext.Session.SetString(SessionKeyRegisterEmail, Email);
             HttpContext.Session.SetString(SessionKeyRegisterPassword, Password);
 
+            if (SignupNewsletter.Equals("on"))
+            {
+                EmailList el = new EmailList();
+                el.EmailListID = Guid.NewGuid().GetHashCode();
+                el.Email = Email;
+                if (el.Email.ToString().IndexOf("@") != -1 && el.Email.ToString().IndexOf(".") != -1
+                    && !el.Email.Equals("") && el.Email.ToString().IndexOf(";") == -1
+                    && el.Email.ToString().IndexOf("(") == -1 && el.Email.ToString().IndexOf(")") == -1
+                    && el.Email.ToString().IndexOf(",") == -1 && el.Email.ToString().IndexOf("'") == -1
+                    && el.Email.ToString().IndexOf(":") == -1)
+                {
+                    foreach (var email in _context.EmailList)
+                    {
+                        if (el.Email.ToString().Equals(email.Email))
+                        {
+                            return RedirectToAction("Index");
+                        }
+                    }
+                    el.SaveDetails();
+                }
+            }
+            else
+            {
+            }
+
             return RedirectToAction("Index");
-        }
+            }
+        
 
 
         [Route("forgotpassword")]
