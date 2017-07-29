@@ -15,6 +15,7 @@ namespace nicoblogproject.Controllers
     {
 
         private readonly UserContext _context;
+        const string SearchFilter = "_SearchFilter";
 
         public CommunityController(UserContext context)
         {
@@ -24,14 +25,40 @@ namespace nicoblogproject.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            GetLoginHTMLState();
-
             List<ApplicationUser> users = new List<ApplicationUser>();
-            foreach (ApplicationUser user in _context.Users)
+            GetLoginHTMLState();
+            if(HttpContext.Session.GetString(SearchFilter) != null &&
+                !HttpContext.Session.GetString(SearchFilter).Equals(""))
             {
-                users.Add(user);
+                string _SearchFilter = HttpContext.Session.GetString(SearchFilter);
+                foreach(ApplicationUser user in _context.Users)
+                {
+                    if (user.Username.Equals(_SearchFilter, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        if (users.Count != 0)
+                        {
+                            users.Clear();
+                        }
+                        users.Add(user);
+                        HttpContext.Session.SetString(SearchFilter, "");
+                        return View(users);
+                    }
+                    if(user.Username.IndexOf(_SearchFilter, StringComparison.CurrentCultureIgnoreCase) != -1 
+                        && !users.Contains(user))
+                    {
+                        users.Add(user);
+                    }
+                }
+            }
+            else
+            {
+                foreach (ApplicationUser user in _context.Users)
+                {
+                    users.Add(user);
+                }
             }
 
+            
             return View(users);
         }
 
@@ -40,16 +67,10 @@ namespace nicoblogproject.Controllers
         [HttpPost("SearchByUsername")]
         public IActionResult SearchByUsername()
         {
-            string SearchQuery = HttpContext.Request.Form["communitySearchBar"].ToString().ToLower();
-            
-            foreach(var user in _context.Users)
-            {
-                if (user.Username.ToString().ToLower().Equals(SearchQuery))
-                {
-                    return RedirectToAction(SearchQuery,"Community");
-                }
-            }
-            return RedirectToAction("Index","Home");
+            string SearchQuery = HttpContext.Request.Form["communitySearchBar"].ToString();
+            HttpContext.Session.SetString(SearchFilter, SearchQuery);
+
+            return RedirectToAction("Index");
         }
 
         /*
