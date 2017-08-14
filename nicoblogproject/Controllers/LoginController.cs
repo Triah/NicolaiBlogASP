@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using nicoblogproject.Data;
 using nicoblogproject.Models;
 using Microsoft.AspNetCore.Http;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,6 +27,7 @@ namespace nicoblogproject.Controllers
         const string SessionEmail = "_Email";
         const string SessionUserType = "_Type";
         const string SessionKeyAcceptTerms = "_TermsOfService";
+        const string SessionUserSalt = "_Salt";
 
         public LoginController(UserContext context)
         {
@@ -83,14 +86,19 @@ namespace nicoblogproject.Controllers
                 var RegisterPassword = HttpContext.Session.GetString(SessionKeyRegisterPassword);
                 HttpContext.Session.SetString(SessionKeyRegisterPassword, "");
 
+                var RegisterSalt = HttpContext.Session.GetString(SessionUserSalt);
+                HttpContext.Session.SetString(SessionUserSalt, "");
+
                 if (!RegisterUsername.ToString().Equals("") &&
                     !RegisterEmail.ToString().Equals("") &&
-                    !RegisterPassword.ToString().Equals(""))
+                    !RegisterPassword.ToString().Equals("") &&
+                    !RegisterSalt.ToString().Equals(""))
                 {
                     ApplicationUser applicationUser = new ApplicationUser();
                     applicationUser.ApplicationUserID = Guid.NewGuid().GetHashCode();
                     applicationUser.Username = RegisterUsername;
                     applicationUser.Email = RegisterEmail;
+                    applicationUser.Salt = RegisterSalt;
                     applicationUser.Password = RegisterPassword;
                     applicationUser.Type = "Basic";
                     applicationUser.SaveDetails();
@@ -110,26 +118,34 @@ namespace nicoblogproject.Controllers
             return View();
         }
 
-        /**
-         * will be used at a later stage
-         */
-         /*
-        public int GenerateSalt()
+        public string CreateSalt()
         {
-            return 0;
+            byte[] salt = new byte[128 / 8];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(salt);
+            }
+            return Convert.ToBase64String(salt);
         }
 
-        public void EncryptPassword(string Password)
+        public string EncryptPassword( string password, byte[] salt)
         {
-            
+            string EncPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(password: password, salt: salt, prf: KeyDerivationPrf.HMACSHA1, iterationCount: 10000, numBytesRequested: 256 / 8));
+            return EncPassword;
         }
-        */
+        
 
         [Route("profile")]
         public IActionResult Profile()
         {
             GetLoginHTMLState();
-
+            if (HttpContext.Session.GetString(SessionLoggedIn) != null)
+            {
+                if (HttpContext.Session.GetString(SessionLoggedIn).ToString().Equals(SessionLoggedInFalse))
+                {
+                    return RedirectToAction("Index");
+                }
+            }
             //Display Username and Email based on Session cookie
             ViewData["Username"] = HttpContext.Session.GetString(SessionUsername);
             ViewData["Email"] = HttpContext.Session.GetString(SessionEmail);
@@ -144,7 +160,7 @@ namespace nicoblogproject.Controllers
             string LoginPassword = HttpContext.Request.Form["loginPassword"].ToString();
             foreach (ApplicationUser au in _context.Users)
             {
-                if (LoginUsername == au.Username && LoginPassword == au.Password)
+                if (LoginUsername.ToString().Equals(au.Username.ToString(), StringComparison.CurrentCultureIgnoreCase) && EncryptPassword(LoginPassword, Convert.FromBase64String(au.Salt)) == au.Password)
                 {
                     HttpContext.Session.SetString(SessionUsername, au.Username);
                     HttpContext.Session.SetString(SessionEmail, au.Email);
@@ -274,16 +290,16 @@ namespace nicoblogproject.Controllers
 
             foreach (ApplicationUser a in _context.Users)
             {
-                if (a.Username == Username)
+                if (a.Username.ToString().Equals(Username, StringComparison.CurrentCultureIgnoreCase))
                 {
                     HttpContext.Session.SetString(SessionKeyErrorOccured,
                         "Username is already in use");
                     return RedirectToAction("Register");
                 }
-                else if (a.Email == Email)
+                else if (a.Email.ToString().Equals(Email,StringComparison.CurrentCultureIgnoreCase))
                 {
                     HttpContext.Session.SetString(SessionKeyErrorOccured,
-                        "Email is empty or already in use");
+                        "Email is already in use");
                     return RedirectToAction("Register");
                 }
             }
@@ -291,7 +307,9 @@ namespace nicoblogproject.Controllers
             //store values using sessions
             HttpContext.Session.SetString(SessionKeyRegisterName, Username);
             HttpContext.Session.SetString(SessionKeyRegisterEmail, Email);
-            HttpContext.Session.SetString(SessionKeyRegisterPassword, Password);
+            HttpContext.Session.SetString(SessionUserSalt, CreateSalt());
+            HttpContext.Session.SetString(SessionKeyRegisterPassword, EncryptPassword(Password, Convert.FromBase64String(HttpContext.Session.GetString(SessionUserSalt))));
+            
 
             if (SignupNewsletter.Equals("on"))
             {
@@ -338,5 +356,20 @@ namespace nicoblogproject.Controllers
 
             return View();
         }
+
+        [Route("termsofservice")]
+        public IActionResult TermsOfService()
+        {
+            GetLoginHTMLState();
+            return View();
+        }
+
+        [Route("privacypolicy")]
+        public IActionResult PrivacyPolicy()
+        {
+            GetLoginHTMLState();
+            return View();
+        }
+
     }
 }

@@ -14,13 +14,12 @@ namespace nicoblogproject.Models
         public string Password { get; set; }
         public string DisplayImage { get; set; }
         public string Type { get; set; }
-
-
+        public string Salt { get; set; }
 
         public int SaveDetails()
         {
             SqlConnection con = new SqlConnection("Server = (localdb)\\mssqllocaldb; Database = NicolaiBlogDatabase; Trusted_Connection = True; MultipleActiveResultSets = true");
-            string query = "INSERT INTO ApplicationUser(ApplicationUserID, Username, Email, Password, DisplayImage, Type) values ('" + ApplicationUserID + "','" + Username + "','" + Email + "','" + Password + "'," + "null" + ",'" + Type + "')";
+            string query = "INSERT INTO ApplicationUser(ApplicationUserID, Username, Email, Password, DisplayImage, Type, Salt) values ('" + ApplicationUserID + "','" + Username + "','" + Email + "','" + Password + "'," + "null" + ",'" + Type + "','" + Salt + "')";
             SqlCommand cmd = new SqlCommand(query, con);
             con.Open();
             int i = cmd.ExecuteNonQuery();

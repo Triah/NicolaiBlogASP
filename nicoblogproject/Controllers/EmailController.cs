@@ -29,14 +29,18 @@ namespace nicoblogproject.Controllers
         public IActionResult Index()
         {
             GetLoginHTMLState();
-
-            //Code needed for adding emails to the email list
-            /*EmailList el = new EmailList();
-            el.EmailListID = Guid.NewGuid().GetHashCode();
-            el.Email = "freaken5@hotmail.com";
-            el.SaveDetails();*/
-
-            return View();
+            if (HttpContext.Session.GetString("_Username") != null)
+            {
+                if (HttpContext.Session.GetString("_Type").Equals("Admin"))
+                {
+                    return View();
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         [HttpPost]

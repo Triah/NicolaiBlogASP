@@ -57,8 +57,6 @@ namespace nicoblogproject.Controllers
                     users.Add(user);
                 }
             }
-
-            
             return View(users);
         }
 
@@ -72,26 +70,6 @@ namespace nicoblogproject.Controllers
 
             return RedirectToAction("Index");
         }
-
-        /*
-         * 
-         * this is for testing the images for the community tab
-        
-            [HttpPost("AddImageToDb")]
-        public IActionResult AddImageToDb()
-        {
-            ApplicationUser applicationUser = new ApplicationUser();
-            applicationUser.ApplicationUserID = Guid.NewGuid().GetHashCode();
-            applicationUser.Username = "imagetest";
-            applicationUser.Email = "imageemail@email.em";
-            applicationUser.Password = "lolthisisatest";
-            applicationUser.DisplayImage = "images/userimages/airadventurelevel1.png";
-            applicationUser.Type = "Basic";
-            applicationUser.SaveDetails();
-
-            return RedirectToAction("Index");
-        }
-        */
 
         public void GetLoginHTMLState()
         {

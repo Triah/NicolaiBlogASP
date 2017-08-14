@@ -16,7 +16,7 @@
                 <input type="checkbox" id="register-newsletter-checkbox" name="registerNewsletterCheckbox" /><p id="signup-register-newsletter">I wish to sign up for the newsletter</p>
             </div>
             <div class="checkbox-wrapping">
-                <input type="checkbox" id="register-termsofservice-checkbox" name="registerTermsOfServiceCheckbox" /><p id="signup-register-termsofservice">I have read and agree to the <a href="localhost:1621/termsofservice">Terms of Service</a></p>
+                <input type="checkbox" id="register-termsofservice-checkbox" name="registerTermsOfServiceCheckbox" /><p id="signup-register-termsofservice">I have read and agree to the<br /> <a href="@Url.Action("TermsOfService", "Login")" target="_blank">Terms of Service</a> and the <a href="@Url.Action("PrivacyPolicy","Login")" target="_blank">Privacy Policy</a></p>
             </div>
             
             <input type="submit" id="register-submit" value="Register" onclick="verifyRegistrationData()" />
