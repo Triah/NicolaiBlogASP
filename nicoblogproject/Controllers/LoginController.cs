@@ -28,6 +28,11 @@ namespace nicoblogproject.Controllers
         const string SessionUserType = "_Type";
         const string SessionKeyAcceptTerms = "_TermsOfService";
         const string SessionUserSalt = "_Salt";
+        const string ValueFalse = "false";
+        const string ValueTrue = "true";
+        const string SessionProfileEmailShown = "_ShownEmailBool";
+        const string SessionEditProfile = "_EditProfile";
+
 
         public LoginController(UserContext context)
         {
@@ -101,6 +106,10 @@ namespace nicoblogproject.Controllers
                     applicationUser.Salt = RegisterSalt;
                     applicationUser.Password = RegisterPassword;
                     applicationUser.Type = "Basic";
+                    CommunityProfile profile = new CommunityProfile();
+                    profile.CommunityProfileID = Guid.NewGuid().GetHashCode();
+                    profile.CommunityProfileUsername = applicationUser.Username;
+                    profile.SaveDetails();
                     applicationUser.SaveDetails();
                 }
 
@@ -128,17 +137,36 @@ namespace nicoblogproject.Controllers
             return Convert.ToBase64String(salt);
         }
 
-        public string EncryptPassword( string password, byte[] salt)
+        public string EncryptPassword(string password, byte[] salt)
         {
             string EncPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(password: password, salt: salt, prf: KeyDerivationPrf.HMACSHA1, iterationCount: 10000, numBytesRequested: 256 / 8));
             return EncPassword;
         }
-        
+
 
         [Route("profile")]
         public IActionResult Profile()
         {
+            if (HttpContext.Session.GetString(SessionEditProfile) == null)
+            {
+                HttpContext.Session.SetString(SessionEditProfile, ValueFalse);
+            }
+            List<CommunityProfile> profiles = new List<CommunityProfile>();
+            foreach (CommunityProfile p in _context.CommunityProfile)
+            {
+                if(HttpContext.Session.GetString(SessionUsername) != null)
+                {
+                    if (HttpContext.Session.GetString(SessionUsername).ToString().Equals(p.CommunityProfileUsername)){
+                    profiles.Add(p);
+                    }
+                }
+                
+            }
             GetLoginHTMLState();
+            ViewData["Username"] = HttpContext.Session.GetString(SessionUsername);
+            ViewData["EditProfileMode"] = HttpContext.Session.GetString(SessionEditProfile);
+            
+            
             if (HttpContext.Session.GetString(SessionLoggedIn) != null)
             {
                 if (HttpContext.Session.GetString(SessionLoggedIn).ToString().Equals(SessionLoggedInFalse))
@@ -147,10 +175,204 @@ namespace nicoblogproject.Controllers
                 }
             }
             //Display Username and Email based on Session cookie
-            ViewData["Username"] = HttpContext.Session.GetString(SessionUsername);
-            ViewData["Email"] = HttpContext.Session.GetString(SessionEmail);
+           
+            foreach(var u in _context.Users)
+            {
+                if(u.Username.ToString().Equals(HttpContext.Session.GetString(SessionUsername), StringComparison.CurrentCultureIgnoreCase))
+                {
+                    ViewData["ProfilePicture"] = u.DisplayImage;
+                }
+            }
+            
+            return View(profiles);
+        }
 
-            return View();
+        [HttpPost("AddEmail")]
+        public IActionResult AddEmail()
+        {
+            if(HttpContext.Session.GetString(SessionUsername) != null)
+            {
+                foreach(CommunityProfile p in _context.CommunityProfile)
+                {
+                    if (p.CommunityProfileUsername.Equals(HttpContext.Session.GetString(SessionUsername)))
+                    {
+                        foreach(ApplicationUser u in _context.Users)
+                        {
+                            if (u.Username.Equals(p.CommunityProfileUsername))
+                            {
+                                p.UpdateEmail(u.Email, p.CommunityProfileUsername);
+                                p.UpdateEmailAdded(ValueTrue, p.CommunityProfileUsername);
+                            }
+                        }
+                   
+                    }
+                }
+            }
+            
+            return RedirectToAction("Profile");
+        }
+
+        [HttpPost("ShowAge")]
+        public IActionResult ShowAge()
+        {
+            if (HttpContext.Session.GetString(SessionUsername) != null)
+            {
+                foreach (CommunityProfile p in _context.CommunityProfile)
+                {
+                    if (p.CommunityProfileUsername.Equals(HttpContext.Session.GetString(SessionUsername)))
+                    {
+                        foreach (ApplicationUser u in _context.Users)
+                        {
+                            if (u.Username.Equals(p.CommunityProfileUsername))
+                            {
+                                p.UpdateAgeAdded(ValueTrue, p.CommunityProfileUsername);
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            return RedirectToAction("Profile");
+        }
+
+        [HttpPost("HideAge")]
+        public IActionResult HideAge()
+        {
+            if (HttpContext.Session.GetString(SessionUsername) != null)
+            {
+                foreach (CommunityProfile p in _context.CommunityProfile)
+                {
+                    if (p.CommunityProfileUsername.Equals(HttpContext.Session.GetString(SessionUsername)))
+                    {
+                        foreach (ApplicationUser u in _context.Users)
+                        {
+                            if (u.Username.Equals(p.CommunityProfileUsername))
+                            {
+                                p.UpdateAgeAdded(ValueFalse, p.CommunityProfileUsername);
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            return RedirectToAction("Profile");
+        }
+
+        [HttpPost("DefineAge")]
+        public IActionResult DefineAge()
+        {
+            if (HttpContext.Session.GetString(SessionUsername) != null)
+            {
+                foreach (CommunityProfile p in _context.CommunityProfile)
+                {
+                    if (p.CommunityProfileUsername.Equals(HttpContext.Session.GetString(SessionUsername)))
+                    {
+                        foreach (ApplicationUser u in _context.Users)
+                        {
+                            if (u.Username.Equals(p.CommunityProfileUsername))
+                            {
+                                string Age = HttpContext.Request.Form["defineAgeBox"];
+                                int n;
+                                if (int.TryParse(Age, out n) != false)
+                                {
+                                    p.UpdateAge(Age, p.CommunityProfileUsername);
+                                    p.UpdateAgeAdded(ValueTrue, p.CommunityProfileUsername);
+                                } else
+                                {
+                                    ViewData["AgeError"] = "Age must be a number";
+                                }
+                                
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            return RedirectToAction("Profile");
+        }
+
+        [HttpPost("RemoveEmail")]
+        public IActionResult RemoveEmail()
+        {
+            if (HttpContext.Session.GetString(SessionUsername) != null)
+            {
+                foreach (CommunityProfile p in _context.CommunityProfile)
+                {
+                    if (p.CommunityProfileUsername.Equals(HttpContext.Session.GetString(SessionUsername)))
+                    {
+                        foreach (ApplicationUser u in _context.Users)
+                        {
+                            if (u.Username.Equals(p.CommunityProfileUsername))
+                            {
+                                p.UpdateEmailAdded(ValueFalse, p.CommunityProfileUsername);
+                            }
+                        }
+
+                    }
+                }
+            }
+            return RedirectToAction("Profile");
+        }
+
+        [HttpPost("EditProfile")]
+        public IActionResult EditProfile()
+        {
+            if (HttpContext.Session.GetString(SessionUsername) != null)
+            {
+                foreach (CommunityProfile p in _context.CommunityProfile)
+                {
+                    if (p.CommunityProfileUsername.Equals(HttpContext.Session.GetString(SessionUsername)))
+                    {
+                        foreach (ApplicationUser u in _context.Users)
+                        {
+                            if (u.Username.Equals(p.CommunityProfileUsername))
+                            {
+                                HttpContext.Session.SetString(SessionEditProfile, ValueTrue);
+                                ViewData["EditProfileMode"] = HttpContext.Session.GetString(SessionEditProfile);
+                            }
+                        }
+
+                    }
+                }
+            }
+            return RedirectToAction("Profile");
+        }
+
+        [HttpPost("StopEditProfile")]
+        public IActionResult StopEditProfile()
+        {
+            if (HttpContext.Session.GetString(SessionUsername) != null)
+            {
+                foreach (CommunityProfile p in _context.CommunityProfile)
+                {
+                    if (p.CommunityProfileUsername.Equals(HttpContext.Session.GetString(SessionUsername)))
+                    {
+                        foreach (ApplicationUser u in _context.Users)
+                        {
+                            if (u.Username.Equals(p.CommunityProfileUsername))
+                            {
+                                HttpContext.Session.SetString(SessionEditProfile, ValueFalse);
+                                ViewData["EditProfileMode"] = HttpContext.Session.GetString(SessionEditProfile);
+                            }
+                        }
+
+                    }
+                }
+            }
+            return RedirectToAction("Profile");
+        }
+
+        [HttpPost("Logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.SetString(SessionLoggedIn, SessionLoggedInFalse);
+            HttpContext.Session.SetString(SessionUsername, "");
+            HttpContext.Session.SetString(SessionUserType, "");
+            HttpContext.Session.SetString(SessionUserSalt, "");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]

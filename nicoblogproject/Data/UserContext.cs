@@ -17,6 +17,7 @@ namespace nicoblogproject.Data
         public DbSet<Article> Articles { get; set; }
         public DbSet<Images> Images { get; set; }
         public DbSet<EmailList> EmailList { get; set; }
+        public DbSet<CommunityProfile> CommunityProfile { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +25,7 @@ namespace nicoblogproject.Data
             modelBuilder.Entity<Article>().ToTable("Article");
             modelBuilder.Entity<Images>().ToTable("Images");
             modelBuilder.Entity<EmailList>().ToTable("EmailList");
+            modelBuilder.Entity<CommunityProfile>().ToTable("CommunityProfile");
         }
     }
 }
