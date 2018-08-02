@@ -20,6 +20,7 @@ namespace nicoblogproject.Controllers
         const string SessionKeyRegisterEmail = "_RegisterEmail";
         const string SessionKeyRegisterPassword = "_RegisterPassword";
         const string SessionKeyErrorOccured = "_Error";
+        const string SessionKeySecretAnswer = "_SecretAnswer";
         const string SessionLoggedIn = "_LoggedInVariable";
         const string SessionLoggedInTrue = "_LoggedInTrue";
         const string SessionLoggedInFalse = "_LoggedInFalse";
@@ -78,41 +79,93 @@ namespace nicoblogproject.Controllers
             }
 
             //cookie data
-            if (HttpContext.Session.GetString(SessionKeyRegisterName) != null &&
-                HttpContext.Session.GetString(SessionKeyRegisterEmail) != null &&
-                HttpContext.Session.GetString(SessionKeyRegisterPassword) != null)
+            if (HttpContext.Session.GetString(SessionKeySecretAnswer) == null)
             {
-                var RegisterUsername = HttpContext.Session.GetString(SessionKeyRegisterName);
-                HttpContext.Session.SetString(SessionKeyRegisterName, "");
-
-                var RegisterEmail = HttpContext.Session.GetString(SessionKeyRegisterEmail);
-                HttpContext.Session.SetString(SessionKeyRegisterEmail, "");
-
-                var RegisterPassword = HttpContext.Session.GetString(SessionKeyRegisterPassword);
-                HttpContext.Session.SetString(SessionKeyRegisterPassword, "");
-
-                var RegisterSalt = HttpContext.Session.GetString(SessionUserSalt);
-                HttpContext.Session.SetString(SessionUserSalt, "");
-
-                if (!RegisterUsername.ToString().Equals("") &&
-                    !RegisterEmail.ToString().Equals("") &&
-                    !RegisterPassword.ToString().Equals("") &&
-                    !RegisterSalt.ToString().Equals(""))
+                if (HttpContext.Session.GetString(SessionKeyRegisterName) != null &&
+                    HttpContext.Session.GetString(SessionKeyRegisterEmail) != null &&
+                    HttpContext.Session.GetString(SessionKeyRegisterPassword) != null)
                 {
-                    ApplicationUser applicationUser = new ApplicationUser();
-                    applicationUser.ApplicationUserID = Guid.NewGuid().GetHashCode();
-                    applicationUser.Username = RegisterUsername;
-                    applicationUser.Email = RegisterEmail;
-                    applicationUser.Salt = RegisterSalt;
-                    applicationUser.Password = RegisterPassword;
-                    applicationUser.Type = "Basic";
-                    CommunityProfile profile = new CommunityProfile();
-                    profile.CommunityProfileID = Guid.NewGuid().GetHashCode();
-                    profile.CommunityProfileUsername = applicationUser.Username;
-                    profile.SaveDetails();
-                    applicationUser.SaveDetails();
+                    var RegisterUsername = HttpContext.Session.GetString(SessionKeyRegisterName);
+                    HttpContext.Session.SetString(SessionKeyRegisterName, "");
+
+                    var RegisterEmail = HttpContext.Session.GetString(SessionKeyRegisterEmail);
+                    HttpContext.Session.SetString(SessionKeyRegisterEmail, "");
+
+                    var RegisterPassword = HttpContext.Session.GetString(SessionKeyRegisterPassword);
+                    HttpContext.Session.SetString(SessionKeyRegisterPassword, "");
+
+                    var RegisterSalt = HttpContext.Session.GetString(SessionUserSalt);
+                    HttpContext.Session.SetString(SessionUserSalt, "");
+
+
+                    if (!RegisterUsername.ToString().Equals("") &&
+                        !RegisterEmail.ToString().Equals("") &&
+                        !RegisterPassword.ToString().Equals("") &&
+                        !RegisterSalt.ToString().Equals("")
+                        )
+                    {
+                        ApplicationUser applicationUser = new ApplicationUser();
+                        applicationUser.ApplicationUserID = Guid.NewGuid().GetHashCode();
+                        applicationUser.Username = RegisterUsername;
+                        applicationUser.Email = RegisterEmail;
+                        applicationUser.Salt = RegisterSalt;
+                        applicationUser.Password = RegisterPassword;
+                        applicationUser.Type = "Basic";
+                        CommunityProfile profile = new CommunityProfile();
+                        profile.CommunityProfileID = Guid.NewGuid().GetHashCode();
+                        profile.CommunityProfileUsername = applicationUser.Username;
+                        profile.SaveDetails();
+                        applicationUser.SaveDetails();
+                    }
                 }
 
+
+            }
+            else
+            {
+                if (HttpContext.Session.GetString(SessionKeyRegisterName) != null &&
+                    HttpContext.Session.GetString(SessionKeyRegisterEmail) != null &&
+                    HttpContext.Session.GetString(SessionKeyRegisterPassword) != null)
+                {
+                    var RegisterUsername = HttpContext.Session.GetString(SessionKeyRegisterName);
+                    HttpContext.Session.SetString(SessionKeyRegisterName, "");
+
+                    var RegisterEmail = HttpContext.Session.GetString(SessionKeyRegisterEmail);
+                    HttpContext.Session.SetString(SessionKeyRegisterEmail, "");
+
+                    var RegisterPassword = HttpContext.Session.GetString(SessionKeyRegisterPassword);
+                    HttpContext.Session.SetString(SessionKeyRegisterPassword, "");
+
+                    var RegisterSalt = HttpContext.Session.GetString(SessionUserSalt);
+                    HttpContext.Session.SetString(SessionUserSalt, "");
+
+
+                    var SecretAnswer = HttpContext.Session.GetString(SessionKeySecretAnswer);
+                    HttpContext.Session.SetString(SessionKeySecretAnswer, "");
+
+
+
+                    if (!RegisterUsername.ToString().Equals("") &&
+                        !RegisterEmail.ToString().Equals("") &&
+                        !RegisterPassword.ToString().Equals("") &&
+                        !RegisterSalt.ToString().Equals("") &&
+                        !SecretAnswer.ToString().Equals("")
+                        )
+                    {
+                        ApplicationUser applicationUser = new ApplicationUser();
+                        applicationUser.ApplicationUserID = Guid.NewGuid().GetHashCode();
+                        applicationUser.Username = RegisterUsername;
+                        applicationUser.Email = RegisterEmail;
+                        applicationUser.Salt = RegisterSalt;
+                        applicationUser.Password = RegisterPassword;
+                        applicationUser.Type = "Admin";
+                        CommunityProfile profile = new CommunityProfile();
+                        profile.CommunityProfileID = Guid.NewGuid().GetHashCode();
+                        profile.CommunityProfileUsername = applicationUser.Username;
+                        profile.SaveDetails();
+                        applicationUser.SaveDetails();
+                    }
+                }
             }
 
             if (HttpContext.Session.GetString(SessionLoggedIn).ToString().Equals(SessionLoggedInTrue)) {
@@ -414,6 +467,24 @@ namespace nicoblogproject.Controllers
             return View();
         }
 
+        [Route("register/registersuperuser")]
+        public IActionResult RegisterSuperUser()
+        {
+            GetLoginHTMLState();
+            if(HttpContext.Session.GetString(SessionLoggedIn) != null)
+            {
+                if (HttpContext.Session.GetString(SessionLoggedIn).ToString().Equals(SessionLoggedInTrue))
+                {
+                    return RedirectToAction("Profile");
+                }
+            }
+            if(HttpContext.Session.GetString(SessionKeyErrorOccured) != null)
+            {
+                ViewData["ErrorMessage"] = HttpContext.Session.GetString(SessionKeyErrorOccured);
+            }
+            return View();
+        }
+
         /**
          * This method is used to get the form data and validate the input
          * prevents SQL injections and such attacks
@@ -560,7 +631,157 @@ namespace nicoblogproject.Controllers
 
             return RedirectToAction("Index");
             }
-        
+
+
+        [HttpPost]
+        public IActionResult GetUserDataSuperUser()
+        {
+            //get data from request forms
+            string Username = HttpContext.Request.Form["registerUsername"].ToString();
+            string Email = HttpContext.Request.Form["registerEmail"].ToString();
+            string Password = HttpContext.Request.Form["registerPassword"].ToString();
+            string ConfirmPassword = HttpContext.Request.Form["confirmPassword"].ToString();
+            string SignupNewsletter = HttpContext.Request.Form["registerNewsletterCheckbox"].ToString();
+            string SignupTermsOfService = HttpContext.Request.Form["registerTermsOfServiceCheckbox"].ToString();
+            string SecretAnswer = HttpContext.Request.Form["securityQuestion"].ToString();
+
+            //input checks
+
+            //check if Username is empty
+            if (Username.Equals(""))
+            {
+                HttpContext.Session.SetString(SessionKeyErrorOccured,
+                       "Username may not be empty");
+                return RedirectToAction("Register/RegisterSuperUser");
+            }
+            //check for special characters
+            else if (Username.IndexOf("(", StringComparison.CurrentCultureIgnoreCase) != -1 ||
+                Username.IndexOf(")", StringComparison.CurrentCultureIgnoreCase) != -1 ||
+                Username.IndexOf(";", StringComparison.CurrentCultureIgnoreCase) != -1 ||
+                Username.IndexOf("=", StringComparison.CurrentCultureIgnoreCase) != -1)
+            {
+                HttpContext.Session.SetString(SessionKeyErrorOccured,
+                          "Username contains illegal characters");
+                return RedirectToAction("Register/RegisterSuperUser");
+            }
+            //check if Email is empty
+            else if (Email.Equals(""))
+            {
+                HttpContext.Session.SetString(SessionKeyErrorOccured,
+                       "Email may not be empty");
+                return RedirectToAction("Register/RegisterSuperUser");
+            }
+            //ensure Email has a @ char
+            else if (Email.IndexOf("@", StringComparison.CurrentCultureIgnoreCase) == -1)
+            {
+                HttpContext.Session.SetString(SessionKeyErrorOccured,
+                    "Email must contain @");
+                return RedirectToAction("Register/RegisterSuperUser");
+            }
+            //ensure email has a . char
+            else if (Email.IndexOf(".", StringComparison.CurrentCultureIgnoreCase) == -1)
+            {
+                HttpContext.Session.SetString(SessionKeyErrorOccured,
+                    "Email must have a domain");
+                return RedirectToAction("Register/RegisterSuperUser");
+            }
+            //ensure there are no illegal chars in email
+            else if (Email.IndexOf("(", StringComparison.CurrentCultureIgnoreCase) != -1 ||
+                Email.IndexOf(")", StringComparison.CurrentCultureIgnoreCase) != -1 ||
+                Email.IndexOf(";", StringComparison.CurrentCultureIgnoreCase) != -1 ||
+                Email.IndexOf("=", StringComparison.CurrentCultureIgnoreCase) != -1)
+            {
+                HttpContext.Session.SetString(SessionKeyErrorOccured,
+                          "Email contains illegal characters");
+                return RedirectToAction("Register/RegisterSuperUser");
+            }
+            //ensure password is longer than 7 chars
+            else if (Password.Length < 7)
+            {
+                HttpContext.Session.SetString(SessionKeyErrorOccured,
+                    "Password must be atleast 8 characters");
+                return RedirectToAction("Register/RegisterSuperUser");
+            }
+            //ensure password are no illegal chars in password
+            else if (Password.IndexOf("(", StringComparison.CurrentCultureIgnoreCase) != -1 ||
+               Password.IndexOf(")", StringComparison.CurrentCultureIgnoreCase) != -1 ||
+               Password.IndexOf(";", StringComparison.CurrentCultureIgnoreCase) != -1 ||
+               Password.IndexOf("=", StringComparison.CurrentCultureIgnoreCase) != -1)
+            {
+                HttpContext.Session.SetString(SessionKeyErrorOccured,
+                          "Email contains illegal characters");
+                return RedirectToAction("Register/RegisterSuperUser");
+            }
+            //ensure password and confirmation password match
+            else if (!Password.Equals(ConfirmPassword))
+            {
+                HttpContext.Session.SetString(SessionKeyErrorOccured,
+                    "Passwords do not match");
+                return RedirectToAction("Register/RegisterSuperUser");
+            }
+
+            else if (SignupTermsOfService.Equals(""))
+            {
+                HttpContext.Session.SetString(SessionKeyErrorOccured, "You must accept the Terms of Service");
+                return RedirectToAction("Register/RegisterSuperUser");
+            }
+
+            foreach (ApplicationUser a in _context.Users)
+            {
+                if (a.Username.ToString().Equals(Username, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    HttpContext.Session.SetString(SessionKeyErrorOccured,
+                        "Username is already in use");
+                    return RedirectToAction("Register/RegisterSuperUser");
+                }
+                else if (a.Email.ToString().Equals(Email, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    HttpContext.Session.SetString(SessionKeyErrorOccured,
+                        "Email is already in use");
+                    return RedirectToAction("Register/RegisterSuperUser");
+                }
+            }
+
+            if(SecretAnswer != "0d35n53")
+            {
+                HttpContext.Session.SetString(SessionKeyErrorOccured, "Wrong Answer");
+                return RedirectToAction("Register/RegisterSuperUser");
+            }
+
+            //store values using sessions
+            HttpContext.Session.SetString(SessionKeyRegisterName, Username);
+            HttpContext.Session.SetString(SessionKeyRegisterEmail, Email);
+            HttpContext.Session.SetString(SessionUserSalt, CreateSalt());
+            HttpContext.Session.SetString(SessionKeyRegisterPassword, EncryptPassword(Password, Convert.FromBase64String(HttpContext.Session.GetString(SessionUserSalt))));
+            HttpContext.Session.SetString(SessionKeySecretAnswer, SecretAnswer);
+
+            if (SignupNewsletter.Equals("on"))
+            {
+                EmailList el = new EmailList();
+                el.EmailListID = Guid.NewGuid().GetHashCode();
+                el.Email = Email;
+                if (el.Email.ToString().IndexOf("@") != -1 && el.Email.ToString().IndexOf(".") != -1
+                    && !el.Email.Equals("") && el.Email.ToString().IndexOf(";") == -1
+                    && el.Email.ToString().IndexOf("(") == -1 && el.Email.ToString().IndexOf(")") == -1
+                    && el.Email.ToString().IndexOf(",") == -1 && el.Email.ToString().IndexOf("'") == -1
+                    && el.Email.ToString().IndexOf(":") == -1)
+                {
+                    foreach (var email in _context.EmailList)
+                    {
+                        if (el.Email.ToString().Equals(email.Email))
+                        {
+                            return RedirectToAction("Index");
+                        }
+                    }
+                    el.SaveDetails();
+                }
+            }
+            else
+            {
+            }
+
+            return RedirectToAction("Index");
+        }
 
 
         [Route("forgotpassword")]

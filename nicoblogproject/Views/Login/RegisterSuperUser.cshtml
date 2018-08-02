@@ -1,0 +1,37 @@
+﻿@model nicoblogproject.Models.ApplicationUser
+@{
+    ViewData["Title"] = "Register Super User";
+}
+
+<div class="register-wrapper">
+    <div class="registersystem">
+        <h1 id="register-heading">Register Super User</h1>
+        <form asp-controller="Login" asp-action="GetUserDataSuperUser" method="post">
+            <input type="text" id="register-username" name="registerUsername" placeholder="Username" /> <br />
+            <input type="text" id="register-email" name="registerEmail" placeholder="Email" /> <br />
+            <input type="password" id="register-password" name="registerPassword" placeholder="Password" /> <br />
+            <input type="password" id="register-confirmpassword" name="confirmPassword" placeholder="Confirm Password" /> <br />
+            <input type="password" id="security-question" name="securityQuestion" placeholder="Answer" <br />
+            <div class="checkbox-wrapping">
+                <input type="checkbox" id="register-newsletter-checkbox" name="registerNewsletterCheckbox" /><p id="signup-register-newsletter">I wish to sign up for the newsletter</p>
+            </div>
+            <div class="checkbox-wrapping">
+                <input type="checkbox" id="register-termsofservice-checkbox" name="registerTermsOfServiceCheckbox" /><p id="signup-register-termsofservice">I have read and agree to the<br /> <a href="@Url.Action("TermsOfService", "Login")" target="_blank">Terms of Service</a> and the <a href="@Url.Action("PrivacyPolicy","Login")" target="_blank">Privacy Policy</a></p>
+            </div>
+
+            <input type="submit" id="register-submit" value="Register" onclick="verifySuperUserRegistrationData()" />
+        </form>
+
+    </div>
+</div>
+<div class="registererror">
+    <p id="register-error">@ViewData["ErrorMessage"]</p>
+</div>
+
+
+<div class="register-background">
+    <p>
+    </p>
+</div>
+
+
