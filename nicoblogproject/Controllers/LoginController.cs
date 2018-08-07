@@ -330,8 +330,14 @@ namespace nicoblogproject.Controllers
                                 int n;
                                 if (int.TryParse(Age, out n) != false)
                                 {
+                                    if (n > 0)
+                                    {
                                     p.UpdateAge(Age, p.CommunityProfileUsername);
                                     p.UpdateAgeAdded(ValueTrue, p.CommunityProfileUsername);
+                                    } else
+                                    {
+                                        ViewData["AgeError"] = "Age must be larger than 0";
+                                    }
                                 } else
                                 {
                                     ViewData["AgeError"] = "Age must be a number";

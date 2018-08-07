@@ -4,21 +4,24 @@
 }
 
 <div class="profile-wrapper">
+    <div class="profile-picture">
+        @if (ViewData["ProfilePicture"] == null)
+        {
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1024px-Placeholder_no_text.svg.png" height="150" width="150" id="profile-picture-content" />
+        }
+        else
+        {
+            <img src="@ViewData["ProfilePicture"]" width="150" height="150" id="profile-picture-content" />
+        }
+    </div>
     <div class="profile-general">
-        <div class="profile-picture">
-            @if (ViewData["ProfilePicture"] == null)
-            {
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1024px-Placeholder_no_text.svg.png" height="150" width="150" id="profile-picture-content" />
-            }
-            else
-            {
-                <img src="@ViewData["ProfilePicture"]" width="150" height="150" id="profile-picture-content" />
-            }
-        </div>
+
         @foreach (var p in Model)
         {
             if (p.CommunityProfileUsername.Equals(ViewData["Username"]))
+
             {
+                <p>Name: @p.CommunityProfileUsername</p>
                 if (!ViewData["EditProfileMode"].ToString().Equals("true"))
                 {
                     <div class="edit-button">
@@ -39,55 +42,54 @@
                 }
                 else
                 {
+
+
                     <div class="stop-edit-button">
                         <form asp-controller="Login" asp-action="StopEditProfile" method="post">
                             <input type="submit" name="stopEditProfileButton" id="stop-edit-profile-button" value="Finish Editing" />
                         </form>
                     </div>
 
-                    if (p.CommunityProfileEmailAdded.Equals("true"))
-                    {
-                        <p id="profile-info-email">Email: @p.CommunityProfileEmail</p>
-                        <form asp-controller="Login" asp-action="RemoveEmail" method="post">
-                            <input type="submit" value="Remove email from profile" />
-                        </form>
-
-                    }
-                    else
-                    {
-                        <p id="profile-info-email">Email: @p.CommunityProfileEmail</p>
-                    <form asp-controller="Login" asp-action="AddEmail" method="post">
-                        <input type="submit" value="Add email to profile" />
-                    </form>
-
-                    }
-
-                    if (!p.CommunityProfileAgeAdded.Equals("true"))
-                    {
-                        if (p.CommunityProfileAge == 0)
+                    <div class="emailEditing">
+                        @if (p.CommunityProfileEmailAdded.Equals("true"))
                         {
-                            <form asp-controller="Login" asp-action="DefineAge" method="post">
-                                <input type="text" name="defineAgeBox" id="defineAgeBox" />
-                                <input type="submit" value="Update Age"/>
+                            <p id="profile-info-email">Email: @p.CommunityProfileEmail</p>
+                            <form asp-controller="Login" asp-action="RemoveEmail" method="post">
+                                <input type="submit" value="Remove email from profile" />
                             </form>
 
                         }
-                        else if (p.CommunityProfileAge != 0)
+                        else
                         {
-                            <form asp-controller="Login" asp-action="DefineAge" method="post">
-                                <input type="text" name="defineAgeBox" id="defineAgeBox" />
-                                <input type="submit" value="Update Age"/>
+                            <form asp-controller="Login" asp-action="AddEmail" method="post">
+                                <input type="submit" value="Add email to profile" />
                             </form>
-                            <form asp-controller="Login" asp-action="ShowAge" method="post">
-                                <input type="submit" value="Show Age"/>
-                            </form>
-                        }
 
-                    }
-                    else
-                    {
+                        }
+                    </div>
+
+                    <div class="ageEditing">
+
+
+                        @if (!p.CommunityProfileAgeAdded.Equals("true"))
+                        {
                         if (p.CommunityProfileAge != 0)
                         {
+                        <form asp-controller="Login" asp-action="DefineAge" method="post">
+                            <input type="text" name="defineAgeBox" id="defineAgeBox" />
+                            <input type="submit" value="Update Age" />
+                        </form>
+                        <form asp-controller="Login" asp-action="ShowAge" method="post">
+                            <input type="submit" value="Show Age" />
+                        </form>
+                        }
+
+                        }
+                        else
+                        {
+                        <p id="profile-info-age">Age: @p.CommunityProfileAge</p>
+                            if (p.CommunityProfileAge != 0)
+                            {
                             <form asp-controller="Login" asp-action="DefineAge" method="post">
                                 <input type="text" name="defineAgeBox" id="defineAgeBox" />
                                 <input type="submit" value="Update Age" />
@@ -96,38 +98,18 @@
                                 <input type="submit" value="Hide Age" />
                             </form>
 
+                            }
+
+
                         }
-
-                    }
-
+                    </div>
 
                 }
-
-
-
-
-                <div class="profile-info-box">
-                    <div class="profile-info-wrapper">
-                        <p>Name: @p.CommunityProfileUsername</p>
-                        <div class="profile-add-resume">
-                            <p id="profile-summary"></p>
-                        </div>
-
-                        <div class="profile-add-email">
-
-                           
-                        </div>
-                        <!--Create community profile db table with creation of account-->
-                        <div class="profile-add-position">
-
-                        </div>
-                    </div>
-                </div>
 
             }
 
         }
-        
+
 
         <div class="logout-button">
             <form asp-action="Logout" asp-controller="Login" method="post">
@@ -135,7 +117,7 @@
             </form>
         </div>
     </div>
-    
+
 
 
 </div>
