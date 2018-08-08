@@ -265,6 +265,162 @@ namespace nicoblogproject.Controllers
             return RedirectToAction("Profile");
         }
 
+        [HttpPost("ShowSummary")]
+        public IActionResult ShowSummary()
+        {
+            if (HttpContext.Session.GetString(SessionUsername) != null)
+            {
+                foreach (CommunityProfile p in _context.CommunityProfile)
+                {
+                    if (p.CommunityProfileUsername.Equals(HttpContext.Session.GetString(SessionUsername)))
+                    {
+                        foreach (ApplicationUser u in _context.Users)
+                        {
+                            if (u.Username.Equals(p.CommunityProfileUsername))
+                            {
+                                p.UpdateSummaryAdded(ValueTrue, p.CommunityProfileUsername);
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            return RedirectToAction("Profile");
+        }
+
+        [HttpPost("HideSummary")]
+        public IActionResult HideSummary()
+        {
+            if (HttpContext.Session.GetString(SessionUsername) != null)
+            {
+                foreach (CommunityProfile p in _context.CommunityProfile)
+                {
+                    if (p.CommunityProfileUsername.Equals(HttpContext.Session.GetString(SessionUsername)))
+                    {
+                        foreach (ApplicationUser u in _context.Users)
+                        {
+                            if (u.Username.Equals(p.CommunityProfileUsername))
+                            {
+                                p.UpdateSummaryAdded(ValueFalse, p.CommunityProfileUsername);
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            return RedirectToAction("Profile");
+        }
+
+        [HttpPost("DefineSummary")]
+        public IActionResult DefineSummary()
+        {
+            if (HttpContext.Session.GetString(SessionUsername) != null)
+            {
+                foreach (CommunityProfile p in _context.CommunityProfile)
+                {
+                    if (p.CommunityProfileUsername.Equals(HttpContext.Session.GetString(SessionUsername)))
+                    {
+                        foreach (ApplicationUser u in _context.Users)
+                        {
+                            if (u.Username.Equals(p.CommunityProfileUsername))
+                            {
+                                string Summary = HttpContext.Request.Form["defineSummaryBox"];
+
+                                if (!Summary.Equals(""))
+                                {
+                                    p.UpdateSummary(Summary, p.CommunityProfileUsername);
+                                }
+
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            return RedirectToAction("Profile");
+        }
+
+        [HttpPost("ShowCountry")]
+        public IActionResult ShowCountry()
+        {
+            if (HttpContext.Session.GetString(SessionUsername) != null)
+            {
+                foreach (CommunityProfile p in _context.CommunityProfile)
+                {
+                    if (p.CommunityProfileUsername.Equals(HttpContext.Session.GetString(SessionUsername)))
+                    {
+                        foreach (ApplicationUser u in _context.Users)
+                        {
+                            if (u.Username.Equals(p.CommunityProfileUsername))
+                            {
+                                p.UpdateCountryAdded(ValueTrue, p.CommunityProfileUsername);
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            return RedirectToAction("Profile");
+        }
+
+        [HttpPost("HideCountry")]
+        public IActionResult HideCountry()
+        {
+            if (HttpContext.Session.GetString(SessionUsername) != null)
+            {
+                foreach (CommunityProfile p in _context.CommunityProfile)
+                {
+                    if (p.CommunityProfileUsername.Equals(HttpContext.Session.GetString(SessionUsername)))
+                    {
+                        foreach (ApplicationUser u in _context.Users)
+                        {
+                            if (u.Username.Equals(p.CommunityProfileUsername))
+                            {
+                                p.UpdateCountryAdded(ValueFalse, p.CommunityProfileUsername);
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            return RedirectToAction("Profile");
+        }
+
+        [HttpPost("DefineCountry")]
+        public IActionResult DefineCountry()
+        {
+            if (HttpContext.Session.GetString(SessionUsername) != null)
+            {
+                foreach (CommunityProfile p in _context.CommunityProfile)
+                {
+                    if (p.CommunityProfileUsername.Equals(HttpContext.Session.GetString(SessionUsername)))
+                    {
+                        foreach (ApplicationUser u in _context.Users)
+                        {
+                            if (u.Username.Equals(p.CommunityProfileUsername))
+                            {
+                                string Country = HttpContext.Request.Form["defineCountryBox"];
+                               
+                                if (!Country.Equals(""))
+                                {
+                                    p.UpdateCountry(Country, p.CommunityProfileUsername);
+                                }
+                                
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            return RedirectToAction("Profile");
+        }
+
         [HttpPost("ShowAge")]
         public IActionResult ShowAge()
         {
