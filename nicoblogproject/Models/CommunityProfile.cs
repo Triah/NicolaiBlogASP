@@ -20,6 +20,7 @@ namespace nicoblogproject.Models
         public string CommunityProfileAgeAdded { get; set; }
         public string CommunityProfileOccupation { get; set; }
         public string CommunityProfileOccupationAdded { get; set; }
+        public string CommunityProfileDisplayImage { get; set; }
 
         public int SaveDetails()
         {
@@ -35,7 +36,8 @@ namespace nicoblogproject.Models
                 "CommunityProfileAge," +
                 "CommunityProfileAgeAdded," +
                 "CommunityProfileOccupation," +
-                "CommunityProfileOccupationAdded) values ('" + 
+                "CommunityProfileOccupationAdded," +
+                "CommunityProfileDisplayImage) values ('" + 
                 CommunityProfileID + "','" + 
                 CommunityProfileUsername + "','" + 
                 CommunityProfileSummary + "','" + 
@@ -47,7 +49,8 @@ namespace nicoblogproject.Models
                 CommunityProfileAge + "','" +
                 CommunityProfileAgeAdded + "','" +
                 CommunityProfileOccupation + "','" +
-                CommunityProfileOccupationAdded + "')";
+                CommunityProfileOccupationAdded + "','"+
+                CommunityProfileDisplayImage + "')";
             SqlCommand cmd = new SqlCommand(query, con);
             con.Open();
             int i = cmd.ExecuteNonQuery();
@@ -60,6 +63,19 @@ namespace nicoblogproject.Models
             SqlConnection con = new SqlConnection("Server = (localdb)\\mssqllocaldb; Database = NicolaiBlogDatabase; Trusted_Connection = True; MultipleActiveResultSets = true");
             string query = "UPDATE CommunityProfile " +
                 "SET CommunityProfileSummary = '" + Summary + "' " +
+                "WHERE CommunityProfileUsername = '" + Username + "';";
+            SqlCommand cmd = new SqlCommand(query, con);
+            con.Open();
+            int i = cmd.ExecuteNonQuery();
+            con.Close();
+            return i;
+        }
+
+        public int UpdateDisplayImage(string URL, string Username)
+        {
+            SqlConnection con = new SqlConnection("Server = (localdb)\\mssqllocaldb; Database = NicolaiBlogDatabase; Trusted_Connection = True; MultipleActiveResultSets = true");
+            string query = "UPDATE CommunityProfile " +
+                "SET CommunityProfileDisplayImage = '" + URL + "' " +
                 "WHERE CommunityProfileUsername = '" + Username + "';";
             SqlCommand cmd = new SqlCommand(query, con);
             con.Open();

@@ -666,32 +666,59 @@ html{
 .profile-wrapper {
     width:100%;
     height:100%;
+    margin-left:3%;
 }
 
 .profile-general{
     text-align:left;
     position:absolute;
-    top:35%;
-    left:50%;
+    top:30%;
 }
 
 .profile-general p{
-    transform:translate(-50%,-50%);
     font-family:Calibri;
 }
 
 .emailEditing input {
     position:relative;
-    left:-50%;
     margin-bottom:10%;
 }
 
 .ageEditing input{
    position:relative;
-   left:-50%;
    margin-bottom:2%;
 }
 
+.summaryEditing {
+    position:relative;
+    left:270px;
+    top:-190px;
+
+}
+
+.profile-general p[id="profile-info-summary"] {
+    position: relative;
+    left: 270px;
+    top: -190px;
+}
+.summarybox{
+    height:10px;
+}
+.profile-general p[id="profile-info-username"] {
+    position: relative;
+    left: 270px;
+    top: -200px;
+}
+
+.summaryEditing textarea, input {
+    position: relative;
+    margin-bottom: 2%;
+}
+
+.countryEditing input {
+    position: relative;
+    margin-bottom: 2%;
+}
 .logout-button input{
     position: fixed;
     left: 62%;
@@ -746,8 +773,7 @@ html{
     max-width: 250px;
     max-height: 250px;
     position: absolute;
-    left: 50%;
-    transform: translate(-50%,0%);
+    top: 10%;
 }
 
 .profile-picture img[id="profile-picture-content"]{
@@ -757,9 +783,277 @@ html{
     height:100%;
 }
 
+.profile-summary-edit-input input[id="update-summary"] {
+    position: fixed;
+    top:28%;
+    left:79%;
+    display: list-item;
+    width: 150px;
+    height: 3em;
+    border: 1px;
+    background-color: #333;
+    color: #f2f2f2;
+
+}
+
+.profile-summary-edit-input input[id="hide-summary"] {
+    position: fixed;
+    top: 28%;
+    left: 89%;
+    display: list-item;
+    width: 150px;
+    height: 3em;
+    border: 1px;
+    background-color: #333;
+    color: #f2f2f2;
+}
+
+.profile-summary-edit-input input:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.profile-general input:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.summaryEditing p[id="profile-info-summary-editing"]{
+}
+
+.profile-summary-edit-input textarea{
+    position:fixed;
+    top:20%;
+    left:88%;
+    width:250px;
+    height:110px;
+    transform:translate(-50%,-50%);
+}
+
+.summaryEditing textarea {
+    position: fixed;
+    top: 15%;
+    left: 79%;
+    width: 250px;
+    height: 110px;
+    transform: translate(0%,0%);
+}
+
+.emailEditing input {
+    position: fixed;
+    left: 79%;
+    top: 35%;
+    display: list-item;
+    width: 200px;
+    height: 3em;
+    border: 1px;
+    background-color: #333;
+    color: #f2f2f2;
+}
+
+.emailEditing p {
+    position:relative;
+    top:-180px;
+}
+
+.ageEditing input[id="update-age"] {
+    position: fixed;
+    left: 79%;
+    top: 45%;
+    display: list-item;
+    width: 150px;
+    height: 3em;
+    border: 1px;
+    background-color: #333;
+    color: #f2f2f2;
+}
+
+.ageEditing input[id="hide-age"] {
+    position: fixed;
+    left: 89%;
+    top: 45%;
+    display: list-item;
+    width: 150px;
+    height: 3em;
+    border: 1px;
+    background-color: #333;
+    color: #f2f2f2;
+}
+
+.ageEditing input[id="defineAgeBox"] {
+    position: fixed;
+    left: 79%;
+    top: 42%;
+    width:250px;
+}
+
+.ageEditing p {
+    position: relative;
+    top: -180px;
+}
+
+.countryEditing p {
+    position: relative;
+    top: -180px;
+}
+
+.occupationEditing p {
+    position: relative;
+    top: -180px;
+}
+
+.occupationEditing input[id="update-occupation"] {
+    position: fixed;
+    left: 79%;
+    top: 65%;
+    display: list-item;
+    width: 150px;
+    height: 3em;
+    border: 1px;
+    background-color: #333;
+    color: #f2f2f2;
+}
+
+.below-image-editing p[id="profile-info-email-editing"] {
+    position: fixed;
+    top:36.9%;
+}
+
+.below-image-editing p[id="profile-info-age-editing"] {
+    position: fixed;
+    top: 40.5%;
+}
+
+.choose-profile-image {
+    position: fixed;
+    left: 79%;
+    top: 9%;
+    overflow: hidden;
+    display: inline-block;
+    width: 150px;
+    height: 1.8em;
+    border: 1px;
+    background-color: #333;
+    color: #f2f2f2;
+    font-family: Calibri;
+    text-align: center;
+    vertical-align: middle;
+
+}
+
+.choose-profile-image input[id="upload-profile-image"]{
+    position:fixed;
+    left:85%;
+    top:9%;
+}
+
+.below-image-editing p[id="profile-info-country-editing"] {
+    position: fixed;
+    top: 44%;
+}
+
+.below-image-editing p[id="profile-info-occupation-editing"] {
+    position: fixed;
+    top: 47.6%;
+}
 
 
 
+
+.occupationEditing input[id="hide-occupation"] {
+    position: fixed;
+    left: 89%;
+    top: 65%;
+    display: list-item;
+    width: 150px;
+    height: 3em;
+    border: 1px;
+    background-color: #333;
+    color: #f2f2f2;
+}
+
+.countryEditing input[id="update-country"] {
+    position: fixed;
+    left: 79%;
+    top: 55%;
+    display: list-item;
+    width: 150px;
+    height: 3em;
+    border: 1px;
+    background-color: #333;
+    color: #f2f2f2;
+}
+
+.countryEditing input[id="hide-country"] {
+    position: fixed;
+    left: 89%;
+    top: 55%;
+    display: list-item;
+    width: 150px;
+    height: 3em;
+    border: 1px;
+    background-color: #333;
+    color: #f2f2f2;
+}
+
+.countryEditing input[id="defineCountryBox"] {
+    position: fixed;
+    left: 79%;
+    top: 52%;
+    width: 250px;
+}
+
+.occupationEditing input[id="defineOccupationBox"] {
+    position: fixed;
+    left: 79%;
+    top: 62%;
+    width: 250px;
+}
+
+.below-image{
+    position:relative;
+    top:6px;
+}
+
+
+@media only screen and (max-width: 560px){
+    .profile-wrapper{
+        position:relative;
+        top:30px;
+    }
+    .profile-general{
+        position:relative;
+        top:330px;
+    }
+    .profile-general p[id="profile-info-summary"] {
+        position: relative;
+        left: 0px;
+        top: 0px;
+    }
+
+    .summarybox {
+        height: 100%;
+    }
+
+    .profile-general p[id="profile-info-username"] {
+        position: relative;
+        left: 0px;
+        top: 0px;
+    }
+    .edit-button input{
+       width:80%;
+       position:relative;
+       transform:translate(-55%,0%);
+       z-index:-10;
+    }
+    .logout-button input {
+        width: 80%;
+        position: relative;
+        transform: translate(-69%,0%);
+        margin-bottom: 15%;
+        z-index: -10;
+    }
+}
 
 
 /*screen size alterations*/

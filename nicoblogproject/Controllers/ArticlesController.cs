@@ -18,7 +18,7 @@ namespace nicoblogproject.Controllers
         private readonly UserContext _context;
         //used for ordering the articles properly
         private int articleidvalue = 1000;
-        private int imagesidvalue = 1000;
+        private int imagesidvalue = 100000;
 
         public ArticlesController(UserContext context)
         {

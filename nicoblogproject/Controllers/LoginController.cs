@@ -8,6 +8,7 @@ using nicoblogproject.Models;
 using Microsoft.AspNetCore.Http;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using System.IO;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -33,6 +34,7 @@ namespace nicoblogproject.Controllers
         const string ValueTrue = "true";
         const string SessionProfileEmailShown = "_ShownEmailBool";
         const string SessionEditProfile = "_EditProfile";
+        private int imagesidvalue = 100000;
 
 
         public LoginController(UserContext context)
@@ -240,6 +242,54 @@ namespace nicoblogproject.Controllers
             return View(profiles);
         }
 
+        [HttpPost("UpdateProfilePicture")]
+        public async Task<IActionResult> UpdateProfilePicture(List<IFormFile> files)
+        {
+            {
+                if (HttpContext.Session.GetString(SessionUsername) != null)
+                {
+                    foreach (CommunityProfile p in _context.CommunityProfile)
+                    {
+                        if (p.CommunityProfileUsername.Equals(HttpContext.Session.GetString(SessionUsername)))
+                        {
+                            foreach (ApplicationUser u in _context.Users)
+                            {
+                                if (u.Username.Equals(p.CommunityProfileUsername))
+                                {
+                                    foreach (Images image in _context.Images)
+                                    {
+                                        imagesidvalue--;
+                                    }
+
+                                    var filePath = Directory.GetCurrentDirectory() + "/wwwroot/Images/";
+                                    foreach (var file in files)
+                                    {
+                                        if (file.Length > 0)
+                                        {
+                                            using (var stream = new FileStream(filePath + file.FileName, FileMode.Create))
+                                            {
+                                                await file.CopyToAsync(stream);
+                                            }
+                                        }
+
+                                        Images image = new Images();
+                                        image.ImagesID = imagesidvalue;
+                                        image.ImagesPath = "/images/" + file.FileName;
+                                        image.SaveDetails();
+                                        imagesidvalue--;
+                                        u.UpdateDisplayImage(image.ImagesPath, u.Username);
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+                return RedirectToAction("Profile");
+            }
+        }
+
         [HttpPost("AddEmail")]
         public IActionResult AddEmail()
         {
@@ -327,10 +377,106 @@ namespace nicoblogproject.Controllers
                             if (u.Username.Equals(p.CommunityProfileUsername))
                             {
                                 string Summary = HttpContext.Request.Form["defineSummaryBox"];
-
+                                
                                 if (!Summary.Equals(""))
                                 {
-                                    p.UpdateSummary(Summary, p.CommunityProfileUsername);
+                                    if (!Summary.Contains('>') || !Summary.Contains('<'))
+                                    {
+                                        string[] array = null;
+                                        if (Summary.ToString().Contains(Environment.NewLine))
+                                        {
+                                            Summary = Summary.Replace(Environment.NewLine, " <br> ");
+                                            array = Summary.Split("<br>");
+                                        }
+                                        if(array != null && array.Length < 11)
+                                        {
+                                            p.UpdateSummary(Summary, p.CommunityProfileUsername);
+                                        } else if (array != null && array.Length >= 12)
+                                        {
+                                        } else if (array == null)
+                                        {
+                                            p.UpdateSummary(Summary, p.CommunityProfileUsername);
+                                        }
+                                       
+                                    }
+                                }
+
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            return RedirectToAction("Profile");
+        }
+
+        [HttpPost("ShowOccupation")]
+        public IActionResult ShowOccupation()
+        {
+            if (HttpContext.Session.GetString(SessionUsername) != null)
+            {
+                foreach (CommunityProfile p in _context.CommunityProfile)
+                {
+                    if (p.CommunityProfileUsername.Equals(HttpContext.Session.GetString(SessionUsername)))
+                    {
+                        foreach (ApplicationUser u in _context.Users)
+                        {
+                            if (u.Username.Equals(p.CommunityProfileUsername))
+                            {
+                                p.UpdateOccupationAdded(ValueTrue, p.CommunityProfileUsername);
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            return RedirectToAction("Profile");
+        }
+
+        [HttpPost("HideOccupation")]
+        public IActionResult HideOccupation()
+        {
+            if (HttpContext.Session.GetString(SessionUsername) != null)
+            {
+                foreach (CommunityProfile p in _context.CommunityProfile)
+                {
+                    if (p.CommunityProfileUsername.Equals(HttpContext.Session.GetString(SessionUsername)))
+                    {
+                        foreach (ApplicationUser u in _context.Users)
+                        {
+                            if (u.Username.Equals(p.CommunityProfileUsername))
+                            {
+                                p.UpdateOccupationAdded(ValueFalse, p.CommunityProfileUsername);
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            return RedirectToAction("Profile");
+        }
+
+        [HttpPost("DefineOccupation")]
+        public IActionResult DefineOccupation()
+        {
+            if (HttpContext.Session.GetString(SessionUsername) != null)
+            {
+                foreach (CommunityProfile p in _context.CommunityProfile)
+                {
+                    if (p.CommunityProfileUsername.Equals(HttpContext.Session.GetString(SessionUsername)))
+                    {
+                        foreach (ApplicationUser u in _context.Users)
+                        {
+                            if (u.Username.Equals(p.CommunityProfileUsername))
+                            {
+                                string Occupation = HttpContext.Request.Form["defineOccupationBox"];
+
+                                if (!Occupation.Equals(""))
+                                {
+                                    p.UpdateOccupation(Occupation, p.CommunityProfileUsername);
                                 }
 
                             }

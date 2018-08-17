@@ -21,153 +21,198 @@
             if (p.CommunityProfileUsername.Equals(ViewData["Username"]))
 
             {
-                <p>Name: @p.CommunityProfileUsername</p>
+                <p id="profile-info-username">Name: @p.CommunityProfileUsername</p>
                 if (!ViewData["EditProfileMode"].ToString().Equals("true"))
                 {
-                    <div class="edit-button">
-                        <form asp-controller="Login" asp-action="EditProfile" method="post">
-                            <input type="submit" name="editProfileButton" id="edit-profile-button" value="Edit Profile" />
-                        </form>
-                    </div>
+
                     if (p.CommunityProfileSummaryAdded.Equals("true"))
                     {
-                        <p id="profile-info-summary">@p.CommunityProfileSummary</p>
+                        <div class="summarybox">
+                            @Html.Raw("<p id=" + "profile-info-summary" + ">" + @p.CommunityProfileSummary + "</p>")
+                        </div>
                     }
-                    if (p.CommunityProfileEmailAdded.Equals("true"))
-                    {
-                        <p id="profile-info-email">Email: @p.CommunityProfileEmail</p>
-
-                    }
-                    if (p.CommunityProfileAgeAdded.Equals("true"))
-                    {
-                        <p id="profile-info-age">Age: @p.CommunityProfileAge</p>
-
-                    }
-                    if (p.CommunityProfileCountryAdded.Equals("true"))
-                    {
-                        <p id="profile-info-country">Country: @p.CommunityProfileCountry</p>
-                    }
-                    if (p.CommunityProfileOccupationAdded.Equals("true"))
-                    {
-                        <p id="profile-info-occupation">Occupation: @p.CommunityProfileOccupation</p>
-                    }
-                }
-                else
-                {
-
-
-                    <div class="stop-edit-button">
-                        <form asp-controller="Login" asp-action="StopEditProfile" method="post">
-                            <input type="submit" name="stopEditProfileButton" id="stop-edit-profile-button" value="Finish Editing" />
-                        </form>
-                    </div>
-
-                    <div class="summaryEditing">
-                        @if (p.CommunityProfileSummaryAdded.Equals("true"))
-                        {
-                        <p id="profile-info-summary">@p.CommunityProfileSummary</p>
-                        <form asp-controller="Login" asp-action="DefineSummary" method="post">
-                            <textarea name="defineSummaryBox" id="defineSummaryBox"></textarea>
-                            <input type="submit" value="Update Summary" />
-                        </form>
-                        <form asp-controller="Login" asp-action="HideSummary" method="post">
-                            <input type="submit" value="Hide Summary" />
-                        </form>
-                        }
-                        else
-                        {
-                            <form asp-controller="Login" asp-action="DefineSummary" method="post">
-                                <textarea name="defineSummaryBox" id="defineSummaryBox"></textarea>
-                                <input type="submit" value="Update Summary" />
-                            </form>
-                            <form asp-controller="Login" asp-action="ShowSummary" method="post">
-                                <input type="submit" value="Show Summary" />
-                            </form>
-                        }
-                    </div>
-
-                    <div class="emailEditing">
+                    <div class="below-image">
                         @if (p.CommunityProfileEmailAdded.Equals("true"))
                         {
                             <p id="profile-info-email">Email: @p.CommunityProfileEmail</p>
-                            <form asp-controller="Login" asp-action="RemoveEmail" method="post">
-                                <input type="submit" value="Remove email from profile" />
-                            </form>
 
                         }
-                        else
-                        {
-                            <form asp-controller="Login" asp-action="AddEmail" method="post">
-                                <input type="submit" value="Add email to profile" />
-                            </form>
-
-                        }
-                    </div>
-
-                    <div class="ageEditing">
-                        @if (!p.CommunityProfileAgeAdded.Equals("true"))
-                        {
-                            if (p.CommunityProfileAge != 0)
-                            {
-                                <form asp-controller="Login" asp-action="DefineAge" method="post">
-                                    <input type="text" name="defineAgeBox" id="defineAgeBox" />
-                                    <input type="submit" value="Update Age" />
-                                </form>
-                                <form asp-controller="Login" asp-action="ShowAge" method="post">
-                                    <input type="submit" value="Show Age" />
-                                </form>
-                            }
-
-                        }
-                        else
+                        @if (p.CommunityProfileAgeAdded.Equals("true"))
                         {
                             <p id="profile-info-age">Age: @p.CommunityProfileAge</p>
-                            if (p.CommunityProfileAge != 0)
-                            {
-                                <form asp-controller="Login" asp-action="DefineAge" method="post">
-                                    <input type="text" name="defineAgeBox" id="defineAgeBox" />
-                                    <input type="submit" value="Update Age" />
-                                </form>
-                                <form asp-controller="Login" asp-action="HideAge" method="post">
-                                    <input type="submit" value="Hide Age" />
-                                </form>
-
-                            }
-
 
                         }
-                    </div>
-
-                    <div class="countryEditing">
                         @if (p.CommunityProfileCountryAdded.Equals("true"))
                         {
                             <p id="profile-info-country">Country: @p.CommunityProfileCountry</p>
-                            <form asp-controller="Login" asp-action="DefineCountry" method="post">
-                                <input type="text" name="defineCountryBox" id="defineCountryBox" />
-                                <input type="submit" value="Update Country" />
-                            </form>
-                            <form asp-controller="Login" asp-action="HideCountry" method="post">
-                                <input type="submit" value="Hide Country" />
-                            </form>
+                        }
+                        @if (p.CommunityProfileOccupationAdded.Equals("true"))
+                        {
+                            <p id="profile-info-occupation">Occupation: @p.CommunityProfileOccupation</p>
+                        }
+                    </div>
+
+                }
+                else
+                {
+                    <div class="summaryEditing">
+                        @if (p.CommunityProfileSummaryAdded.Equals("true"))
+                        {
+                            @Html.Raw("<p id=" + "profile-info-summary-editing" + ">" + @p.CommunityProfileSummary + "</p>")
+                            <div class="profile-summary-edit-input">
+                                <form asp-controller="Login" asp-action="DefineSummary" method="post">
+                                    <textarea name="defineSummaryBox" id="defineSummaryBox" placeholder="Update profile summary"></textarea>
+                                    <input type="submit" id="update-summary" value="Update Summary" />
+                                </form>
+                                <form asp-controller="Login" asp-action="HideSummary" method="post">
+                                    <input type="submit" id="hide-summary" value="Hide Summary" />
+                                </form>
+                            </div>
+
                         }
                         else
                         {
-                            <form asp-controller="Login" asp-action="DefineCountry" method="post">
-                                <input type="text" name="defineCountryBox" id="defineCountryBox" />
-                                <input type="submit" value="Update Country" />
-                            </form>
-                            <form asp-controller="Login" asp-action="ShowCountry" method="post">
-                                <input type="submit" value="Show Country" />
-                            </form>
+                            <div class="profile-summary-edit-input">
+                                <form asp-controller="Login" asp-action="DefineSummary" method="post">
+                                    <textarea name="defineSummaryBox" id="defineSummaryBox" rows="10" placeholder="Update profile summary"></textarea>
+                                    <input type="submit" id="update-summary" value="Update Summary" />
+                                </form>
+                                <form asp-controller="Login" asp-action="ShowSummary" method="post">
+                                    <input type="submit" id="hide-summary" value="Show Summary" />
+                                </form>
+                            </div>
+
                         }
                     </div>
+                    <div class="below-image-editing">
+                        <div class="emailEditing">
+                            @if (p.CommunityProfileEmailAdded.Equals("true"))
+                            {
+                                <p id="profile-info-email-editing">Email: @p.CommunityProfileEmail</p>
+                                <form asp-controller="Login" asp-action="RemoveEmail" method="post">
+                                    <input type="submit" value="Remove email from profile" />
+                                </form>
+
+                            }
+                            else
+                            {
+                                <p id="profile-info-email-editing">Email:</p>
+                                <form asp-controller="Login" asp-action="AddEmail" method="post">
+                                    <input type="submit" value="Add email to profile" />
+                                </form>
+
+                            }
+                        </div>
+
+                        <div class="ageEditing">
+                            @if (!p.CommunityProfileAgeAdded.Equals("true"))
+                            {
+                                    <p id="profile-info-age-editing">Age: </p>
+                                    <form asp-controller="Login" asp-action="DefineAge" method="post">
+                                        <input type="text" name="defineAgeBox" id="defineAgeBox" placeholder="Update age" />
+                                        <input type="submit" id="update-age" value="Update Age" />
+                                    </form>
+                                    <form asp-controller="Login" asp-action="ShowAge" method="post">
+                                        <input type="submit" id="hide-age" value="Show Age" />
+                                    </form>
+
+                            }
+                            else
+                            {
+                                <p id="profile-info-age-editing">Age: @p.CommunityProfileAge</p>
+                                    <form asp-controller="Login" asp-action="DefineAge" method="post">
+                                        <input type="text" name="defineAgeBox" id="defineAgeBox" placeholder="Update age" />
+                                        <input type="submit" id="update-age" value="Update Age" />
+                                    </form>
+                                    <form asp-controller="Login" asp-action="HideAge" method="post">
+                                        <input type="submit" id="hide-age" value="Hide Age" />
+                                    </form>
+
+                               
+
+
+                            }
+                        </div>
+
+                        <div class="countryEditing">
+                            @if (p.CommunityProfileCountryAdded.Equals("true"))
+                            {
+                                <p id="profile-info-country-editing">Country: @p.CommunityProfileCountry</p>
+                                <form asp-controller="Login" asp-action="DefineCountry" method="post">
+                                    <input type="text" name="defineCountryBox" id="defineCountryBox" placeholder="Update country" />
+                                    <input type="submit" value="Update Country" id="update-country" />
+                                </form>
+                                <form asp-controller="Login" asp-action="HideCountry" method="post">
+                                    <input type="submit" value="Hide Country" id="hide-country" />
+                                </form>
+                            }
+                            else
+                            {
+                                <p id="profile-info-country-editing">Country:</p>
+                                <form asp-controller="Login" asp-action="DefineCountry" method="post">
+                                    <input type="text" name="defineCountryBox" id="defineCountryBox" placeholder="Update country" />
+                                    <input type="submit" value="Update Country" id="update-country" />
+                                </form>
+                                <form asp-controller="Login" asp-action="ShowCountry" method="post">
+                                    <input type="submit" value="Show Country" id="hide-country" />
+                                </form>
+                            }
+                        </div>
+
+                        <div class="occupationEditing">
+                            @if (p.CommunityProfileOccupationAdded.Equals("true"))
+                            {
+                                <p id="profile-info-occupation-editing">Occupation: @p.CommunityProfileOccupation</p>
+                                <form asp-controller="Login" asp-action="DefineOccupation" method="post">
+                                    <input type="text" name="defineOccupationBox" id="defineOccupationBox" placeholder="Update occupation" />
+                                    <input type="submit" value="Update Occupation" id="update-occupation" />
+                                </form>
+                                <form asp-controller="Login" asp-action="HideOccupation" method="post">
+                                    <input type="submit" value="Hide Occupation" id="hide-occupation" />
+                                </form>
+                            }
+                            else
+                            {
+                                <p id="profile-info-occupation-editing">Occupation:</p>
+                                <form asp-controller="Login" asp-action="DefineOccupation" method="post">
+                                    <input type="text" name="defineOccupationBox" id="defineOccupationBox" placeholder="Update occupation" />
+                                    <input type="submit" value="Update Occupation" id="update-occupation" />
+                                </form>
+                                <form asp-controller="Login" asp-action="ShowOccupation" method="post">
+                                    <input type="submit" value="Show Occupation" id="hide-occupation" />
+                                </form>
+                            }
+                        </div>
+                    </div>
+                    
                 }
 
             }
 
         }
+        @if (!ViewData["EditProfileMode"].ToString().Equals("true"))
+        {
+            <div class="edit-button">
+                <form asp-controller="Login" asp-action="EditProfile" method="post">
+                    <input type="submit" name="editProfileButton" id="edit-profile-button" value="Edit Profile" />
+                </form>
+            </div>
+        }
+        else
+        {
+            <div class="stop-edit-button">
+                <form asp-controller="Login" asp-action="StopEditProfile" method="post">
+                    <input type="submit" name="stopEditProfileButton" id="stop-edit-profile-button" value="Finish Editing" />
+                </form>
+            </div>
+            <div class="choose-profile-image">
+                <form asp-controller="Login" asp-action="UpdateProfilePicture" method="post" enctype="multipart/form-data">
+                    <input type="file" name="files" />
+                    <input type="submit" id="upload-profile-image" value="Use Image" />
+                </form>
+            </div>
 
-
+        }
         <div class="logout-button">
             <form asp-action="Logout" asp-controller="Login" method="post">
                 <input type="submit" id="submit-logout" value="Log out" />

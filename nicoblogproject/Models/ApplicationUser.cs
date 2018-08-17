@@ -26,6 +26,19 @@ namespace nicoblogproject.Models
             con.Close();
             return i;
         }
+
+        public int UpdateDisplayImage(string URL, string Username)
+        {
+            SqlConnection con = new SqlConnection("Server = (localdb)\\mssqllocaldb; Database = NicolaiBlogDatabase; Trusted_Connection = True; MultipleActiveResultSets = true");
+            string query = "UPDATE ApplicationUser " +
+                "SET DisplayImage = '" + URL + "' " +
+                "WHERE Username = '" + Username + "';";
+            SqlCommand cmd = new SqlCommand(query, con);
+            con.Open();
+            int i = cmd.ExecuteNonQuery();
+            con.Close();
+            return i;
+        }
     }
 
 }
